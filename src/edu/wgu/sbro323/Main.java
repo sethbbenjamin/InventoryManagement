@@ -23,7 +23,7 @@ public class Main extends Application {
         
         Parent root = FXMLLoader.load(getClass().getResource("InventoryManagement.fxml"));
         
-        Scene scene = new Scene(root, 700, 450);
+        Scene scene = new Scene(root, 800, 450);
         
         primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(scene);
