@@ -22,9 +22,7 @@ public class Main extends Application {
        
         
         Parent root = FXMLLoader.load(getClass().getResource("InventoryManagement.fxml"));
-        
-        Scene scene = new Scene(root, 800, 450);
-        
+        Scene scene = new Scene(root); //Scene(root, 950, 700);
         primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -35,6 +33,13 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
+        
+        
+        PartsInventory parts = new PartsInventory();
+        Inventory product = new Inventory();
+        
+        
     }
     
 }

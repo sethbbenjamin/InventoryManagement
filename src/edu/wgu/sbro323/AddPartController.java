@@ -16,6 +16,12 @@ import javafx.fxml.Initializable;
  */
 public class AddPartController implements Initializable {
 
+   
+    
+    
+    
+    
+    
     /**
      * Initializes the controller class.
      */
