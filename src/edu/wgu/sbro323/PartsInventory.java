@@ -6,6 +6,8 @@
 package edu.wgu.sbro323;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -13,10 +15,11 @@ import java.util.ArrayList;
  */
 public class PartsInventory {
     
-    ArrayList<Part> parts;
+    private ArrayList<Part> parts;
     
     
-    public void addPartToInventory(String name, int ID, Double price, int instock, int min, int max, int machineID){
+    public void addPartToInventory(String name, int ID, Double price, int instock, int min, int max, int machineID)
+    {
         Inhouse part = new Inhouse();
         
         part.setName(name);
@@ -30,7 +33,8 @@ public class PartsInventory {
         parts.add(part);
     }
     
-    public void addPartToInventory(String name, int ID, Double price, int instock, int min, int max, String companyName) {
+    public void addPartToInventory(String name, int ID, Double price, int instock, int min, int max, String companyName) 
+    {
         
         Outsourced part = new Outsourced();
         
@@ -47,8 +51,18 @@ public class PartsInventory {
     }
     
     
-public ArrayList<Part> getParts(){
-    return parts;
-}
+    public ArrayList<Part> getParts(){
+        
+        
+        ObservableList<Part> partsList = FXCollections.observableArrayList();
+        
+        
+        for(final Part part : parts)
+        {
+            partsList.add(part);
+        }
+                
+        return parts;
+    }
     
 }
