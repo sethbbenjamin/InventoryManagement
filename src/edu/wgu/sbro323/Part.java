@@ -1,20 +1,36 @@
 package edu.wgu.sbro323;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public abstract class Part {
 
 	private String name;
-	private int partID;
-	private double price;
-	private int instock;
-	private int min;
-	private int max;
+	private Integer partID;
+	private Double price;
+	private Integer instock;
+	private Integer min;
+	private Integer max;
 	
 	
-	
+        Part(){
+            
+        }
+        
+	Part(String name, Integer partID, Double price, Integer instock, Integer min, Integer max){
+            this.name = name;
+            this.partID = partID;
+            this.price = price;
+            this.instock = instock;
+            this.min = min;
+            this.max = max;
+        }
 	
 	public String getName() {
 		return name;
 	}
+
+        
 	public void setName(String name) {
 		this.name = name;
 	}
