@@ -24,30 +24,27 @@ public class Main extends Application {
     private Parent rootLayout;
     
     private ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    private ObservableList<Product> productInventory = FXCollections.observableArrayList();
 
     public Main(){
         
+        //test data
         partInventory.add(new Inhouse("fish", 111, 13.99, 5,3,7,004));
         partInventory.add(new Inhouse("chair", 112, 13.99, 5, 3, 7, 004));
         partInventory.add(new Inhouse("head", 113, 13.99, 5, 3, 7, 004));
+        partInventory.add(new Outsourced("head", 113, 13.99, 5, 3, 7, "Goog"));
 
+        
     }
     
     @Override
     public void start(Stage primaryStage) throws Exception {
        
-        
-//        Parent root = FXMLLoader.load(getClass().getResource("InventoryManagement.fxml"));
-//        Scene scene = new Scene(root); //Scene(root, 950, 700);
-//        primaryStage.setTitle("Inventory Management System");
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
 
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Inventory Management System");
 
         try {
-            // Load the root layout from the fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("InventoryManagement.fxml"));
             rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);

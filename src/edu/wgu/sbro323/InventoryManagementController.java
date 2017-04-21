@@ -76,7 +76,6 @@ public class InventoryManagementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        //PartsInventory partsInventory = new PartsInventory();
         
         partNameColumn.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("name"));
@@ -84,6 +83,8 @@ public class InventoryManagementController implements Initializable {
                 new PropertyValueFactory<Part, Integer>("partID"));
         inventoryColumn.setCellValueFactory(
                 new PropertyValueFactory<Part, Integer>("instock"));
+        priceColumn.setCellValueFactory(
+                new PropertyValueFactory<Part, Double>("price"));
         
     } 
     
