@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,13 +28,17 @@ public class InventoryManagementController implements Initializable {
     private Main main;
     
     @FXML
+    private BorderPane rootPane;
+    
+    @FXML
     private Button btnExit;
     @FXML
     private Button btnAddPart;
+    @FXML
+    private Button btnModifyPart;
     
     @FXML
     private TableView<Part> partsTable;
-    
     @FXML
     private TableColumn<Part, Integer> partIDColumn;
     @FXML
@@ -59,13 +64,12 @@ public class InventoryManagementController implements Initializable {
     private void addPartButtonAction(ActionEvent event) throws IOException{
 
         
-        //System.out.println("AddPart Button.");
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
         stage.setScene(new Scene(root));
         stage.setTitle("Add Part");
         stage.initModality(Modality.APPLICATION_MODAL);
-        //stage.initOwner(btnAddPart.getScene().getWindow());
+        stage.initOwner(rootPane.getScene().getWindow());
         stage.showAndWait();
         
         
@@ -77,21 +81,17 @@ public class InventoryManagementController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         
-        partNameColumn.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("name"));
-        partIDColumn.setCellValueFactory(
-                new PropertyValueFactory<Part, Integer>("partID"));
-        inventoryColumn.setCellValueFactory(
-                new PropertyValueFactory<Part, Integer>("instock"));
-        priceColumn.setCellValueFactory(
-                new PropertyValueFactory<Part, Double>("price"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        inventoryColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         
     } 
     
     public void setMain(Main main) {
         this.main = main;
 
-        // Add observable list data to the table
+        // Add data to the table
         partsTable.setItems(main.getPartInventory());
     }
     
