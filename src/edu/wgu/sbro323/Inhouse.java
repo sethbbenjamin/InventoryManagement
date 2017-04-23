@@ -4,7 +4,12 @@ public class Inhouse extends Part {
 
 	private int machineID;
         
-        Inhouse(String name, Integer partID, Double price, Integer instock, Integer min, Integer max, int machineID){
+        Inhouse(){
+            super();
+            this.machineID = 0;
+        }
+        
+        Inhouse(String name, int partID, Double price, int instock, int min, int max, int machineID){
             super(name, partID, price, instock, min, max);
             this.machineID = machineID;
         }
