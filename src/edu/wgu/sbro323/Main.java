@@ -23,16 +23,11 @@ public class Main extends Application {
     private Stage primaryStage;
     private Parent rootLayout;
     
-    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    private ObservableList<Product> productInventory = FXCollections.observableArrayList();
+    
 
     public Main(){
         
-        //test data
-        partInventory.add(new Inhouse("fish", 111, 13.99, 5,3,7,004));
-        partInventory.add(new Inhouse("chair", 112, 13.99, 5, 3, 7, 004));
-        partInventory.add(new Inhouse("head", 113, 13.99, 5, 3, 7, 004));
-        partInventory.add(new Outsourced("head", 113, 13.99, 5, 3, 7, "Goog"));
+        
 
         
     }
@@ -52,7 +47,7 @@ public class Main extends Application {
             primaryStage.show();
 
             InventoryManagementController controller = loader.getController();
-            controller.setMain(this);
+            controller.setRoot(this);
         } catch (IOException e) {
             // Exception gets thrown if the fxml file could not be loaded
             e.printStackTrace();
@@ -62,9 +57,9 @@ public class Main extends Application {
     }
     
     
-    public ObservableList<Part> getPartInventory() {
-        return partInventory;
-    }
+//    public ObservableList<Part> getPartInventory() {
+//        return partInventory;
+//    }
 
     /**
      * @param args the command line arguments

@@ -3,6 +3,8 @@ package edu.wgu.sbro323;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,8 +29,16 @@ public class InventoryManagementController implements Initializable {
     //Reference to main app
     private Main main;
     
+    
+    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    private ObservableList<Product> productInventory = FXCollections.observableArrayList();
+    
+    
     @FXML
-    private BorderPane rootPane;
+    private Parent inventoryManagementRoot;
+    
+    @FXML
+    private Parent addPartRoot;
     
     @FXML
     private Button btnExit;
@@ -55,30 +65,61 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void exitButtonAction(ActionEvent event){
 
-        final Node source = (Node) event.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
+        //final Node source = (Node) event.getSource();
+        final Stage stage = (Stage) inventoryManagementRoot.getScene().getWindow();
         stage.close();
     }
     
     @FXML
     private void addPartButtonAction(ActionEvent event) throws IOException{
 
-        
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
         stage.setScene(new Scene(root));
         stage.setTitle("Add Part");
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(rootPane.getScene().getWindow());
+        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+        stage.showAndWait();
+     
+    }
+    
+    @FXML
+    private void modifyPartButtonAction(ActionEvent event) throws IOException{
+        System.out.println("modify part!");
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
+        addPartRoot = loader.load();
+        stage.setScene(new Scene(addPartRoot));
+        stage.setTitle("Modify Part");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+        
+        
+        Part part = partsTable.getSelectionModel().getSelectedItem();
+
+        AddPartController addPartController = loader.getController();
+        addPartController.setPart(part);
+        addPartController.setRoot(addPartRoot);
+        
+        
         stage.showAndWait();
         
+
         
+
     }
       
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        //test data
+        partInventory.add(new Inhouse("fish", 111, 13.99, 5,3,7,004));
+        partInventory.add(new Inhouse("chair", 112, 13.99, 5, 3, 7, 004));
+        partInventory.add(new Inhouse("head", 113, 13.99, 5, 3, 7, 004));
+        partInventory.add(new Outsourced("head", 113, 13.99, 5, 3, 7, "Goog"));
+        
         
         
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -88,11 +129,11 @@ public class InventoryManagementController implements Initializable {
         
     } 
     
-    public void setMain(Main main) {
+    public void setRoot(Main main) {
         this.main = main;
 
         // Add data to the table
-        partsTable.setItems(main.getPartInventory());
+        partsTable.setItems(partInventory);
     }
     
 }
