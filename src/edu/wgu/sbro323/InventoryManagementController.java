@@ -74,18 +74,28 @@ public class InventoryManagementController implements Initializable {
     private void addPartButtonAction(ActionEvent event) throws IOException{
 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
-        stage.setScene(new Scene(root));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
+        addPartRoot = loader.load();
+        stage.setScene(new Scene(addPartRoot));
         stage.setTitle("Add Part");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+
+        Part part = new Inhouse();
+        partInventory.add(part);
+
+        AddPartController addPartController = loader.getController();
+        addPartController.setPart(part);
+        addPartController.setRoot(addPartRoot);
+
+        //place at end so application doesn't "wait" before it should
         stage.showAndWait();
      
     }
     
     @FXML
     private void modifyPartButtonAction(ActionEvent event) throws IOException{
-        System.out.println("modify part!");
+        //System.out.println("modify part!");
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
         addPartRoot = loader.load();
@@ -101,12 +111,8 @@ public class InventoryManagementController implements Initializable {
         addPartController.setPart(part);
         addPartController.setRoot(addPartRoot);
         
-        
+        //place at end so application doesn't "wait" before it should
         stage.showAndWait();
-        
-
-        
-
     }
       
     
