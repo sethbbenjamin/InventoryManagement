@@ -54,7 +54,7 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private TableColumn<Part, String> partNameColumn;
     @FXML
-    private TableColumn<Part, Integer> inventoryColumn;
+    private TableColumn<Part, Integer> instockColumn;
     @FXML
     private TableColumn<Part, Double>priceColumn;
 
@@ -122,10 +122,15 @@ public class InventoryManagementController implements Initializable {
         
         
         
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        inventoryColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        //partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        //partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        //inventoryColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
+        //priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().PartIDProperty().asObject());
+        instockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         
     } 
     

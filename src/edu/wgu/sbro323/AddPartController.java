@@ -42,9 +42,13 @@ public class AddPartController implements Initializable {
     public void setPart(Part part){
         this.part = part;
         
-        //this.txtPartID.setText(part.getPartID());
-        System.out.println("Name is: " + part.getName());
+        //System.out.println("Name is: " + part.getName());
         this.txtPartName.setText(part.getName());
+        this.txtPartID.setText(Integer.toString(part.getPartID()));
+        this.txtPartPrice.setText(Double.toString(part.getPrice()));
+        this.txtPartInventory.setText(Integer.toString(part.getInstock()));
+        this.txtPartMin.setText(Integer.toString(part.getMin()));
+        this.txtPartMax.setText(Integer.toString(part.getMax()));
         
     }
     
@@ -52,8 +56,13 @@ public class AddPartController implements Initializable {
     private void savePart(){
         
         String name = txtPartName.getText();
-        
         this.part.setName(name);
+        this.part.setPartID(Integer.valueOf(txtPartID.getText()));
+        this.part.setPrice(Double.valueOf(txtPartPrice.getText()));
+        this.part.setInstock(Integer.valueOf(txtPartInventory.getText()));
+        this.part.setMin(Integer.valueOf(txtPartMin.getText()));
+        this.part.setMax(Integer.valueOf(txtPartMax.getText()));
+        
         
         final Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
