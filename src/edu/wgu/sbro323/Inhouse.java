@@ -9,8 +9,8 @@ public class Inhouse extends Part {
             this.machineID = 0;
         }
         
-        Inhouse(String name, int partID, Double price, int instock, int min, int max, int machineID){
-            super(name, partID, price, instock, min, max);
+        Inhouse(String name, Double price, int instock, int min, int max, int machineID){
+            super(name, price, instock, min, max);
             this.machineID = machineID;
         }
 

@@ -15,27 +15,32 @@ public abstract class Part {
 	private final IntegerProperty instock;
 	private final IntegerProperty min;
 	private final IntegerProperty max;
+        
+        private static int nextID = 100;
 	
 	
         Part(){
            name  = new SimpleStringProperty();
-           partID = new SimpleIntegerProperty();
+           partID = new SimpleIntegerProperty(generateNextID());
            price = new SimpleDoubleProperty();
            instock = new SimpleIntegerProperty();
            min = new SimpleIntegerProperty();
            max = new SimpleIntegerProperty();
         }
         
-	Part(String name, Integer partID, Double price, Integer instock, Integer min, Integer max){
+	Part(String name, Double price, Integer instock, Integer min, Integer max){
            this.name  = new SimpleStringProperty(name);
-           this.partID = new SimpleIntegerProperty(partID);
+           this.partID = new SimpleIntegerProperty(generateNextID());
            this.price = new SimpleDoubleProperty(price);
            this.instock = new SimpleIntegerProperty(instock);
            this.min = new SimpleIntegerProperty(min);
            this.max = new SimpleIntegerProperty(max);
         }
         
-	
+	private int generateNextID(){
+            return ++nextID;
+        }
+        
 	public String getName() {return name.get();} 
         public void setName(String name){this.name.set(name);}
         public StringProperty nameProperty(){return name;}

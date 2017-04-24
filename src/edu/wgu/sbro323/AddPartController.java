@@ -39,8 +39,17 @@ public class AddPartController implements Initializable {
     private TextField txtPartMax;
     
     
+    public Part getPart(){
+        return part;
+    }
+    
     public void setPart(Part part){
         this.part = part;
+    }
+    
+    
+    public void setFields(){
+        
         
         //System.out.println("Name is: " + part.getName());
         this.txtPartName.setText(part.getName());
@@ -55,9 +64,13 @@ public class AddPartController implements Initializable {
     @FXML
     private void savePart(){
         
+        if (part == null){
+            this.part = new Inhouse();
+        }
+        
         String name = txtPartName.getText();
         this.part.setName(name);
-        this.part.setPartID(Integer.valueOf(txtPartID.getText()));
+        //this.part.setPartID(Integer.valueOf(txtPartID.getText()));
         this.part.setPrice(Double.valueOf(txtPartPrice.getText()));
         this.part.setInstock(Integer.valueOf(txtPartInventory.getText()));
         this.part.setMin(Integer.valueOf(txtPartMin.getText()));

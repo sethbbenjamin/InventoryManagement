@@ -29,8 +29,10 @@ public class InventoryManagementController implements Initializable {
     private Main main;
     
     
-    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    private ObservableList<Product> productInventory = FXCollections.observableArrayList();
+    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
+    
+
     
     
     @FXML
@@ -58,9 +60,6 @@ public class InventoryManagementController implements Initializable {
     private TableColumn<Part, Double>priceColumn;
 
     
-    
-
-    
     @FXML
     private void exitButtonAction(ActionEvent event){
 
@@ -80,15 +79,22 @@ public class InventoryManagementController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(inventoryManagementRoot.getScene().getWindow());
 
-        Part part = new Inhouse();
-        partInventory.add(part);
+
 
         AddPartController addPartController = loader.getController();
-        addPartController.setPart(part);
+        //addPartController.setPart(part);
         addPartController.setRoot(addPartRoot);
 
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
+        
+        Part part = addPartController.getPart();
+        
+        if (addPartController.getPart() != null)
+        {
+            partInventory.add(part);
+        }
+   
      
     }
     
@@ -103,11 +109,10 @@ public class InventoryManagementController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(inventoryManagementRoot.getScene().getWindow());
         
-        
-        Part part = partsTable.getSelectionModel().getSelectedItem();
 
         AddPartController addPartController = loader.getController();
-        addPartController.setPart(part);
+        addPartController.setPart(partsTable.getSelectionModel().getSelectedItem());
+        addPartController.setFields();
         addPartController.setRoot(addPartRoot);
         
         //place at end so application doesn't "wait" before it should
@@ -120,28 +125,21 @@ public class InventoryManagementController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         //test data
-        partInventory.add(new Inhouse("fish", 111, 13.99, 5,3,7,004));
-        partInventory.add(new Inhouse("chair", 112, 13.99, 5, 3, 7, 004));
-        partInventory.add(new Inhouse("head", 113, 13.99, 5, 3, 7, 004));
-        partInventory.add(new Outsourced("head", 113, 13.99, 5, 3, 7, "Goog"));
-        
-        
-        
-        //partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        //inventoryColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
-        //priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+        partInventory.add(new Inhouse("fish", 13.99, 5,3,7,004));
+        partInventory.add(new Inhouse("chair", 13.99, 5, 3, 7, 004));
+        partInventory.add(new Inhouse("head", 13.99, 5, 3, 7, 004));
+        partInventory.add(new Outsourced("head", 13.99, 5, 3, 7, "Goog"));
 
         
-        
+        //Populate / bind table column data
         partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         partIDColumn.setCellValueFactory(cellData -> cellData.getValue().PartIDProperty().asObject());
         instockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         
         //Format table cell to display currency values
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
         priceColumn.setCellFactory(column -> {
             return new TableCell<Part, Double>() {
                 @Override
