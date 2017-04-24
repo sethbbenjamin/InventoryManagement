@@ -2,6 +2,7 @@ package edu.wgu.sbro323;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,14 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -133,11 +132,33 @@ public class InventoryManagementController implements Initializable {
         //inventoryColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
         //priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
+        
+        
         partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         partIDColumn.setCellValueFactory(cellData -> cellData.getValue().PartIDProperty().asObject());
         instockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         
+        //Format table cell to display currency values
+        priceColumn.setCellFactory(column -> {
+            return new TableCell<Part, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        // Format as currency
+                        setText(currencyFormatter.format(item));
+                    }
+                }
+            };
+        });
+     
     } 
     
     public void setRoot(Main main) {
