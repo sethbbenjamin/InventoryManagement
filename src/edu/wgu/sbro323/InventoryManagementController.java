@@ -32,6 +32,7 @@ public class InventoryManagementController implements Initializable {
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
+    private FXMLLoader loader;
 
     
     
@@ -71,58 +72,52 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void addPartButtonAction(ActionEvent event) throws IOException{
 
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
-        addPartRoot = loader.load();
-        stage.setScene(new Scene(addPartRoot));
-        stage.setTitle("Add Part");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
-
-
+        Stage stage = createAddPartStage("Add Part");
 
         AddPartController addPartController = loader.getController();
-        //addPartController.setPart(part);
         addPartController.setRoot(addPartRoot);
 
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
-        
-        Part part = addPartController.getPart();
-        
+              
         if (addPartController.getPart() != null)
         {
-            partInventory.add(part);
+            partInventory.add(addPartController.getPart());
         }
-   
-     
+
     }
     
     @FXML
     private void modifyPartButtonAction(ActionEvent event) throws IOException{
-        //System.out.println("modify part!");
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
-        addPartRoot = loader.load();
-        stage.setScene(new Scene(addPartRoot));
-        stage.setTitle("Modify Part");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+        Stage stage = createAddPartStage("Modify Part");
         
-
         AddPartController addPartController = loader.getController();
         addPartController.setPart(partsTable.getSelectionModel().getSelectedItem());
-        addPartController.setFields();
         addPartController.setRoot(addPartRoot);
         
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
     }
       
+    private Stage createAddPartStage(String title)throws IOException{
+        Stage stage = new Stage();
+        loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
+        addPartRoot = loader.load();
+        stage.setScene(new Scene(addPartRoot));
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+        
+        return stage;
+    }
+    
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        //addPartRoot.setCon
         
         //test data
         partInventory.add(new Inhouse("fish", 13.99, 5,3,7,004));

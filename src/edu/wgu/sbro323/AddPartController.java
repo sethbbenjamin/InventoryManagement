@@ -45,19 +45,21 @@ public class AddPartController implements Initializable {
     
     public void setPart(Part part){
         this.part = part;
+        
+        if (this.part != null) {
+            setFields();
+        }
+        
     }
     
     
-    public void setFields(){
-        
-        
-        //System.out.println("Name is: " + part.getName());
-        this.txtPartName.setText(part.getName());
-        this.txtPartID.setText(Integer.toString(part.getPartID()));
-        this.txtPartPrice.setText(Double.toString(part.getPrice()));
-        this.txtPartInventory.setText(Integer.toString(part.getInstock()));
-        this.txtPartMin.setText(Integer.toString(part.getMin()));
-        this.txtPartMax.setText(Integer.toString(part.getMax()));
+    private void setFields(){
+        txtPartName.setText(part.getName());
+        txtPartID.setText(Integer.toString(part.getPartID()));
+        txtPartPrice.setText(Double.toString(part.getPrice()));
+        txtPartInventory.setText(Integer.toString(part.getInstock()));
+        txtPartMin.setText(Integer.toString(part.getMin()));
+        txtPartMax.setText(Integer.toString(part.getMax()));
         
     }
     
@@ -91,7 +93,7 @@ public class AddPartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }    
     
 }
