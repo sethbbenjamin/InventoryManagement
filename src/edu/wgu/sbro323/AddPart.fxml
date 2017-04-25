@@ -50,8 +50,8 @@
             <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Max" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <VBox alignment="TOP_RIGHT" GridPane.rowIndex="5">
                <children>
-                  <Label fx:id="lblCompany" alignment="TOP_RIGHT" text="Company Name" />
-                  <Label fx:id="lblMachineID" alignment="TOP_RIGHT" text="Machine ID" />
+                  <Label fx:id="lblPartCompany" alignment="TOP_RIGHT" text="Company Name" />
+                  <Label fx:id="lblPartMachineID" alignment="TOP_RIGHT" text="Machine ID" />
                </children>
             </VBox>
             <TextField fx:id="txtPartID" disable="true" editable="false" promptText="Part ID (auto)" GridPane.columnIndex="1" />
@@ -61,8 +61,8 @@
             <TextField fx:id="txtPartMax" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <TextField fx:id="txtCompany" />
-                  <TextField fx:id="txtMachineID" />
+                  <TextField fx:id="txtPartCompany" />
+                  <TextField fx:id="txtPartMachineID" />
                </children>
             </VBox>
             <TextField fx:id="txtPartMin" GridPane.columnIndex="1" GridPane.rowIndex="4" />

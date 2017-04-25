@@ -31,6 +31,8 @@ public class AddPartController implements Initializable {
     private Part part;
     private Parent root;
     
+    private boolean isChanged = false;
+    
     @FXML
     private TextField txtPartName; 
     @FXML
@@ -44,44 +46,36 @@ public class AddPartController implements Initializable {
     @FXML
     private TextField txtPartMax;
     @FXML
-    private TextField txtCompany;
+    private TextField txtPartCompany;
     @FXML
-    private Label lblCompany;
+    private Label lblPartCompany;
     @FXML
-    private TextField txtMachineID;
+    private TextField txtPartMachineID;
     @FXML
-    private Label lblMachineID;
+    private Label lblPartMachineID;
     
     @FXML 
     private Label lblTitle;
     
     @FXML 
-    private ToggleGroup categoryGroup = new ToggleGroup();
+    private ToggleGroup categoryGroup;
     @FXML
     private RadioButton rbtnInhouse;
     @FXML
     private RadioButton rbtnOutsourced;
     
-    //private String category;
+    public boolean isChanged(){
+        return isChanged;
+    }
+
     
-    
-    
-    
-//    private void setCategory(String category){
-//        this.category = category;
-//    }
-    
-    private String getCategory(){
-        
-        String category;
-        
-        RadioButton rbtn = (RadioButton) categoryGroup.getSelectedToggle();
-        
+    private String getCategory(){      
+        String category; 
+        RadioButton rbtn = (RadioButton) categoryGroup.getSelectedToggle();       
         category = (rbtn.getText().equals("Inhouse")) ? "Inhouse" : "Outsourced";
         
         return category;
-    }
-    
+    }    
     
     
     public Part getPart(){
@@ -108,27 +102,24 @@ public class AddPartController implements Initializable {
         
         if (this.part instanceof Inhouse) {
             rbtnInhouse.setSelected(true);
-            //this.category = "Inhouse";
+            Inhouse p = (Inhouse)part;
+            txtPartMachineID.setText(Integer.toString(p.getMachineID()));
         } else if (this.part instanceof Outsourced) {
+            Outsourced p = (Outsourced)part;
+            txtPartCompany.setText(p.getCompanyName());
             rbtnOutsourced.setSelected(true);
             //this.category = "Outsourced";
         }
-        
-        
-
-        
-
     }
     
     
-    private void setCategory(){
-
-    }
+//    private void setCategory(){
+//
+//    }
     
-    private boolean categoryChanged(){
-        
-        boolean isChanged = false;
-        
+    //Updates category and sets isChanged flag
+    private boolean updateCategory(){
+                
         if(this.part != null){
             if(this.part instanceof Inhouse){
                 isChanged = !getCategory().equals("Inhouse");
@@ -147,6 +138,7 @@ public class AddPartController implements Initializable {
     }
     
     private Part createNewPart(){      
+        
         Part newPart;
         
         if (getCategory().equals("Inhouse")) {
@@ -161,22 +153,30 @@ public class AddPartController implements Initializable {
     @FXML
     private void saveButtonAction(ActionEvent event){
         
-        if ((part == null) || (categoryChanged()) ){
-            this.part = createNewPart(); 
-        }
+        updateCategory();
         
-        if (categoryChanged()){
+        if ((this.part == null)){
+            this.part = createNewPart(); 
+        } else if (isChanged){
+            this.part = createNewPart();
             this.part.setPartID(Integer.valueOf(txtPartID.getText()));
         }
         
         
-        String name = txtPartName.getText();
-        this.part.setName(name);
+        if(getCategory().equals("Inhouse")){
+            Inhouse p = (Inhouse)part;
+            p.setMachineID(Integer.valueOf(txtPartMachineID.getText()));
+        } else if (getCategory().equals("Outsourced")){
+            Outsourced p = (Outsourced) part;
+            p.setCompanyName(txtPartCompany.getText());
+        }
+        
+
+        this.part.setName(txtPartName.getText());
         this.part.setPrice(Double.valueOf(txtPartPrice.getText()));
         this.part.setInstock(Integer.valueOf(txtPartInventory.getText()));
         this.part.setMin(Integer.valueOf(txtPartMin.getText()));
         this.part.setMax(Integer.valueOf(txtPartMax.getText()));
-        //System.out.println(name);
 
         
         Stage stage = (Stage) root.getScene().getWindow();
@@ -189,26 +189,26 @@ public class AddPartController implements Initializable {
     
     private void toggleCategoryFields(){
         if (getCategory().equals("Inhouse")) {
-            txtCompany.setVisible(false);
-            txtCompany.managedProperty().bind(txtCompany.visibleProperty());
-            lblCompany.setVisible(false);
-            lblCompany.managedProperty().bind(lblCompany.visibleProperty());
+            txtPartCompany.setVisible(false);
+            txtPartCompany.managedProperty().bind(txtPartCompany.visibleProperty());
+            lblPartCompany.setVisible(false);
+            lblPartCompany.managedProperty().bind(lblPartCompany.visibleProperty());
             
-            txtMachineID.setVisible(true);
-            txtMachineID.managedProperty().bind(txtMachineID.visibleProperty());
-            lblMachineID.setVisible(true);
-            lblMachineID.managedProperty().bind(lblMachineID.visibleProperty());
+            txtPartMachineID.setVisible(true);
+            txtPartMachineID.managedProperty().bind(txtPartMachineID.visibleProperty());
+            lblPartMachineID.setVisible(true);
+            lblPartMachineID.managedProperty().bind(lblPartMachineID.visibleProperty());
             
         } else { 
-            txtCompany.setVisible(true);
-            txtCompany.managedProperty().bind(txtCompany.visibleProperty());
-            lblCompany.setVisible(true);
-            lblCompany.managedProperty().bind(lblCompany.visibleProperty());
+            txtPartCompany.setVisible(true);
+            txtPartCompany.managedProperty().bind(txtPartCompany.visibleProperty());
+            lblPartCompany.setVisible(true);
+            lblPartCompany.managedProperty().bind(lblPartCompany.visibleProperty());
             
-            txtMachineID.setVisible(false);
-            txtMachineID.managedProperty().bind(txtMachineID.visibleProperty());
-            lblMachineID.setVisible(false);
-            lblMachineID.managedProperty().bind(lblMachineID.visibleProperty());                   
+            txtPartMachineID.setVisible(false);
+            txtPartMachineID.managedProperty().bind(txtPartMachineID.visibleProperty());
+            lblPartMachineID.setVisible(false);
+            lblPartMachineID.managedProperty().bind(lblPartMachineID.visibleProperty());                   
         }
     }
     

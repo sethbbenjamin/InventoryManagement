@@ -90,13 +90,20 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void modifyPartButtonAction(ActionEvent event) throws IOException{
         Stage stage = createAddPartStage("Modify Part");
+        Part part = partsTable.getSelectionModel().getSelectedItem();
         
         AddPartController addPartController = loader.getController();
-        addPartController.setPart(partsTable.getSelectionModel().getSelectedItem());
+        addPartController.setPart(part);
         addPartController.setRoot(addPartRoot);
         
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
+        
+        if(addPartController.isChanged()){
+            int i = partInventory.indexOf(part);
+            partInventory.set(i, addPartController.getPart());
+        }
+        
     }
       
     private Stage createAddPartStage(String title)throws IOException{
