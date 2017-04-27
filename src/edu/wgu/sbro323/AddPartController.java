@@ -68,6 +68,23 @@ public class AddPartController implements Initializable {
         return isChanged;
     }
 
+    public Part getPart() {
+        return part;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
+
+        if (this.part != null) {
+            setFields();
+        }
+
+    }
+    
+    public void setTitle(String title){
+        this.lblTitle.setText(title);
+    }
+    
     
     private String getCategory(){      
         String category; 
@@ -77,21 +94,7 @@ public class AddPartController implements Initializable {
         return category;
     }    
     
-    
-    public Part getPart(){
-        return part;
-    }
-    
-    public void setPart(Part part){
-        this.part = part;
-        
-        if (this.part != null) {
-            setFields();
-        }
-        
-    }
-    
-    
+ 
     private void setFields(){
         txtPartName.setText(part.getName());
         txtPartID.setText(Integer.toString(part.getPartID()));
@@ -112,10 +115,7 @@ public class AddPartController implements Initializable {
         }
     }
     
-    
-//    private void setCategory(){
-//
-//    }
+
     
     //Updates category and sets isChanged flag
     private boolean updateCategory(){
@@ -223,9 +223,8 @@ public class AddPartController implements Initializable {
         
         categoryGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
-                    Toggle old_toggle, Toggle new_toggle) {
+                    Toggle ot, Toggle nt) {
                 if (categoryGroup.getSelectedToggle() != null) {
-                    //System.out.println("RADIO killed the radio star");
                     toggleCategoryFields();                 
                 }
             }

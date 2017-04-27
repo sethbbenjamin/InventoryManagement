@@ -72,10 +72,13 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void addPartButtonAction(ActionEvent event) throws IOException{
 
-        Stage stage = createAddPartStage("Add Part");
+        String title = "Add Part";
+
+        Stage stage = createAddPartStage(title);
 
         AddPartController addPartController = loader.getController();
         addPartController.setRoot(addPartRoot);
+        addPartController.setTitle(title);
 
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
@@ -89,12 +92,17 @@ public class InventoryManagementController implements Initializable {
     
     @FXML
     private void modifyPartButtonAction(ActionEvent event) throws IOException{
-        Stage stage = createAddPartStage("Modify Part");
+        
+        String title = "Modify Part";
+        
+        Stage stage = createAddPartStage(title);
         Part part = partsTable.getSelectionModel().getSelectedItem();
         
         AddPartController addPartController = loader.getController();
         addPartController.setPart(part);
         addPartController.setRoot(addPartRoot);
+        addPartController.setTitle(title);
+        
         
         //place at end so application doesn't "wait" before it should
         stage.showAndWait();
