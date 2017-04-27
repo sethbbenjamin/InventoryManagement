@@ -6,6 +6,7 @@
 package edu.wgu.sbro323;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -133,8 +137,20 @@ public class AddPartController implements Initializable {
     
     @FXML
     private void cancelButtonAction(ActionEvent event){
-        Stage stage = (Stage) root.getScene().getWindow();
-        stage.close();
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cancel Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.close();
+        } 
+        
+        
+        
     }
     
     private Part createNewPart(){      

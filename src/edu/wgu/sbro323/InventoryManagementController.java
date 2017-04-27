@@ -3,6 +3,7 @@ package edu.wgu.sbro323;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,6 +51,8 @@ public class InventoryManagementController implements Initializable {
     private Button btnAddPart;
     @FXML
     private Button btnModifyPart;
+    @FXML
+    private Button btnDeletePart;
     
     @FXML
     private TableView<Part> partsTable;
@@ -126,6 +131,25 @@ public class InventoryManagementController implements Initializable {
         return stage;
     }
     
+    @FXML
+    private void deletePartButtonAction(){
+        
+        
+        Part part = partsTable.getSelectionModel().getSelectedItem();
+
+        if(part != null){
+        
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Delete Part?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                partInventory.remove(part);
+            }
+        }
+    }
     
     
     @Override

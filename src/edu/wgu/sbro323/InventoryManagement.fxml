@@ -65,7 +65,7 @@
                <children>
                   <Button fx:id="btnAddPart" mnemonicParsing="false" onAction="#addPartButtonAction" text="Add" />
                   <Button mnemonicParsing="false" onAction="#modifyPartButtonAction" text="Modify" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button fx:id="btnDeletePart" mnemonicParsing="false" onAction="#deletePartButtonAction" text="Delete" />
                </children>
             </HBox>
          </children>
