@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +16,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,9 +29,6 @@ import javafx.stage.Stage;
  * @author elitebook
  */
 public class InventoryManagementController implements Initializable {
-    
-    //Reference to main app
-    private Main main;
     
     
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
@@ -45,15 +44,22 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private Parent addPartRoot;
     
-    @FXML
-    private Button btnExit;
-    @FXML
-    private Button btnAddPart;
-    @FXML
-    private Button btnModifyPart;
-    @FXML
-    private Button btnDeletePart;
+//    @FXML
+//    private Button btnExit;
+//    
+//    @FXML
+//    private Button btnAddPart;
+//    @FXML
+//    private Button btnModifyPart;
+//    @FXML
+//    private Button btnDeletePart;
+//    @FXML
+//    private Button btnSearchPart;
     
+    @FXML
+    private TextField txtSearchPart;
+    
+    //part table
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -92,7 +98,6 @@ public class InventoryManagementController implements Initializable {
         {
             partInventory.add(addPartController.getPart());
         }
-
     }
     
     @FXML
@@ -102,6 +107,8 @@ public class InventoryManagementController implements Initializable {
         
         Stage stage = createAddPartStage(title);
         Part part = partsTable.getSelectionModel().getSelectedItem();
+        
+        
         
         AddPartController addPartController = loader.getController();
         addPartController.setPart(part);
@@ -132,13 +139,10 @@ public class InventoryManagementController implements Initializable {
     }
     
     @FXML
-    private void deletePartButtonAction(){
-        
-        
+    private void deletePartButtonAction(){ 
         Part part = partsTable.getSelectionModel().getSelectedItem();
 
-        if(part != null){
-        
+        if(part != null){    
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Confirmation");
             alert.setHeaderText(null);
@@ -152,28 +156,21 @@ public class InventoryManagementController implements Initializable {
     }
     
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    private void searchPartButtonAction(ActionEvent event){
+        txtSearchPart.clear();   
+    }
+    
+    private void initializePartsTable(){
         
-        
-        //addPartRoot.setCon
-        
-        //test data
-        partInventory.add(new Inhouse("fish", 13.99, 5,3,7,004));
-        partInventory.add(new Inhouse("chair", 13.99, 5, 3, 7, 004));
-        partInventory.add(new Inhouse("head", 13.99, 5, 3, 7, 004));
-        partInventory.add(new Outsourced("head", 13.99, 5, 3, 7, "Goog"));
-
-        
-        //Populate / bind table column data
+        //Populate and bind table column data
         partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         partIDColumn.setCellValueFactory(cellData -> cellData.getValue().PartIDProperty().asObject());
         instockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-        
-        //Format table cell to display currency values
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 
+        //Format table cell "price" to display currency values
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
         priceColumn.setCellFactory(column -> {
             return new TableCell<Part, Double>() {
                 @Override
@@ -190,14 +187,50 @@ public class InventoryManagementController implements Initializable {
                 }
             };
         });
+
+        FilteredList<Part> filteredData = new FilteredList<>(partInventory, p -> true);
+
+        txtSearchPart.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (part.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                //No match
+                return false; 
+            });
+        });
+
+        SortedList<Part> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(partsTable.comparatorProperty());
+
+        partsTable.setItems(sortedData);
+    }
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        //test data
+        partInventory.add(new Inhouse("fish", 13.99, 5,3,7,4557321));
+        partInventory.add(new Inhouse("chair", 14.99, 8, 3, 7, 007));
+        partInventory.add(new Inhouse("head", 13.99, 3, 3, 7,77779));
+        partInventory.add(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
+
+        initializePartsTable();
+
      
     } 
     
-    public void setRoot(Main main) {
-        this.main = main;
-
-        // Add data to the table
-        partsTable.setItems(partInventory);
-    }
     
 }

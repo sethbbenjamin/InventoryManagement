@@ -26,10 +26,7 @@ public class Main extends Application {
     
 
     public Main(){
-        
-        
-
-        
+  
     }
     
     @Override
@@ -45,11 +42,9 @@ public class Main extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-
-            InventoryManagementController controller = loader.getController();
-            controller.setRoot(this);
+            //InventoryManagementController controller = loader.getController();
         } catch (IOException e) {
-            // Exception gets thrown if the fxml file could not be loaded
+            // FXML file not loaded
             e.printStackTrace();
         }
 
