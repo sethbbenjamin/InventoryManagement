@@ -36,7 +36,7 @@ public class InventoryManagementController implements Initializable {
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
-    private FXMLLoader addPartLoader;
+    private FXMLLoader loader;
 
     
     
@@ -90,10 +90,9 @@ public class InventoryManagementController implements Initializable {
 
         String title = "Add Part";
         URL url = getClass().getResource("AddPart.fxml");
-        Stage stage = createStage(title, url, addPartLoader);
+        Stage stage = createStage(title, url);
 
-        AddPartController addPartController = addPartLoader.getController();
-        addPartController.setRoot(addPartRoot);
+        AddPartController addPartController = loader.getController();
         addPartController.setTitle(title);
 
         //place at end so application doesn't "wait" before it should
@@ -107,51 +106,35 @@ public class InventoryManagementController implements Initializable {
     
     @FXML
     private void modifyPartButtonAction(ActionEvent event){
-    
 
         Part part = partsTable.getSelectionModel().getSelectedItem();
-
         String title = "Modify Part";
         URL url = getClass().getResource("AddPart.fxml");
 
-        Stage stage = createStage(title, url, addPartLoader);
+        
+                
+        if(itemIsSelected(part)){
+            Stage stage = createStage(title, url);
+            
+            AddPartController addPartController = loader.getController();
+            addPartController.setPart(part);
+            addPartController.setTitle(title);
 
-        AddPartController addPartController = addPartLoader.getController();
-        addPartController.setPart(part);
-        addPartController.setRoot(addPartRoot);
-        addPartController.setTitle(title);
+            stage.showAndWait();
 
-        //place at end so application doesn't "wait" before it should
-        stage.showAndWait();
-
-        if (addPartController.isChanged()) {
-            int i = partInventory.indexOf(part);
-            partInventory.set(i, addPartController.getPart());
-        }
-
+            if (addPartController.isChanged()) {
+                int i = partInventory.indexOf(part);
+                partInventory.set(i, addPartController.getPart());
+            }
+            
+        }      
     }
     
     
-    private <T> void modify(T item, String title, URL url, FXMLLoader loader) {
-        //Part part = partsTable.getSelectionModel().getSelectedItem();
-
+    private <T> boolean itemIsSelected(T item) {
+        
         if (item != null) {
-            Stage stage = createStage(title, url, loader);
-
-
-//            AddPartController addPartController = addPartLoader.getController();
-//            addPartController.setPart((Part) item);
-//            addPartController.setRoot(addPartRoot);
-//            addPartController.setTitle(title);
-
-            //place at end so application doesn't "wait" before it should
-            stage.showAndWait();
-
-//            if (addPartController.isChanged()) {
-//                int i = partInventory.indexOf(part);
-//                partInventory.set(i, addPartController.getPart());
-//            }
-
+            return true;
         } else {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Notice");
@@ -160,13 +143,14 @@ public class InventoryManagementController implements Initializable {
 
             alert.showAndWait();
         }
+        
+        return false;
     }
     
       
-    private Stage createStage(String title, URL url, FXMLLoader loader){
+    private Stage createStage(String title, URL url){
         Stage stage = new Stage();
         loader = new FXMLLoader(url);
-        //addPartRoot = addPartLoader.load();
         
         try{
             stage.setScene(new Scene(loader.load()));
@@ -179,7 +163,6 @@ public class InventoryManagementController implements Initializable {
         }
         
         return stage;
-
     }
     
     @FXML
