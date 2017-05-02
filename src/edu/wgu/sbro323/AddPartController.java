@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -195,7 +196,10 @@ public class AddPartController implements Initializable {
         this.part.setMax(Integer.valueOf(txtPartMax.getText()));
 
         
-        Stage stage = (Stage) root.getScene().getWindow();
+//        Stage stage = (Stage) root.getScene().getWindow();
+//        stage.close();
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
     
