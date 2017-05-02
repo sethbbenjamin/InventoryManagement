@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -35,7 +36,7 @@ public class InventoryManagementController implements Initializable {
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
-    private FXMLLoader addPartLoader;
+    private FXMLLoader loader;
 
     
     
@@ -77,19 +78,21 @@ public class InventoryManagementController implements Initializable {
     private void exitButtonAction(ActionEvent event){
 
         //final Node source = (Node) event.getSource();
-        final Stage stage = (Stage) inventoryManagementRoot.getScene().getWindow();
+//        final Stage stage = (Stage) inventoryManagementRoot.getScene().getWindow();
+//        stage.close();
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
     
     @FXML
-    private void addPartButtonAction(ActionEvent event) throws IOException{
+    private void addPartButtonAction(ActionEvent event){
 
         String title = "Add Part";
+        URL url = getClass().getResource("AddPart.fxml");
+        Stage stage = createStage(title, url);
 
-        Stage stage = createAddPartStage(title);
-
-        AddPartController addPartController = addPartLoader.getController();
-//        addPartController.setRoot(addPartRoot);
+        AddPartController addPartController = loader.getController();
         addPartController.setTitle(title);
 
         //place at end so application doesn't "wait" before it should
@@ -102,47 +105,61 @@ public class InventoryManagementController implements Initializable {
     }
     
     @FXML
-    private void modifyPartButtonAction(ActionEvent event) throws IOException{
-        
+    private void modifyPartButtonAction(ActionEvent event){
 
         Part part = partsTable.getSelectionModel().getSelectedItem();
-        
-        if(part != null){
-            String title = "Modify Part";
-            Stage stage = createAddPartStage(title);
+        String title = "Modify Part";
+        URL url = getClass().getResource("AddPart.fxml");
 
-            AddPartController addPartController = addPartLoader.getController();
+        
+                
+        if(itemIsSelected(part)){
+            Stage stage = createStage(title, url);
+            
+            AddPartController addPartController = loader.getController();
             addPartController.setPart(part);
-//            addPartController.setRoot(addPartRoot);
             addPartController.setTitle(title);
 
-            //place at end so application doesn't "wait" before it should
             stage.showAndWait();
 
             if (addPartController.isChanged()) {
                 int i = partInventory.indexOf(part);
                 partInventory.set(i, addPartController.getPart());
             }
-  
+            
+        }      
+    }
+    
+    
+    private <T> boolean itemIsSelected(T item) {
+        
+        if (item != null) {
+            return true;
         } else {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Notice");
             alert.setHeaderText(null);
             alert.setContentText("No item selected!");
-
             alert.showAndWait();
-        }    
+        }
+        
+        return false;
     }
     
       
-    private Stage createAddPartStage(String title)throws IOException{
+    private Stage createStage(String title, URL url){
         Stage stage = new Stage();
-        addPartLoader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
-        addPartRoot = addPartLoader.load();
-        stage.setScene(new Scene(addPartRoot));
-        stage.setTitle(title);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+        loader = new FXMLLoader(url);
+        
+        try{
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
         
         return stage;
     }
