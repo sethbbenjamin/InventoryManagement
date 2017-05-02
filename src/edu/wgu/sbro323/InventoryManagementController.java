@@ -89,7 +89,7 @@ public class InventoryManagementController implements Initializable {
         Stage stage = createAddPartStage(title);
 
         AddPartController addPartController = addPartLoader.getController();
-        addPartController.setRoot(addPartRoot);
+//        addPartController.setRoot(addPartRoot);
         addPartController.setTitle(title);
 
         //place at end so application doesn't "wait" before it should
@@ -113,7 +113,7 @@ public class InventoryManagementController implements Initializable {
 
             AddPartController addPartController = addPartLoader.getController();
             addPartController.setPart(part);
-            addPartController.setRoot(addPartRoot);
+//            addPartController.setRoot(addPartRoot);
             addPartController.setTitle(title);
 
             //place at end so application doesn't "wait" before it should

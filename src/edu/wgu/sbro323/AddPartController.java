@@ -34,7 +34,7 @@ public class AddPartController implements Initializable {
 
    
     private Part part;
-    private Parent root;
+//    private Parent root;
     
     private boolean isChanged = false;
     
@@ -146,7 +146,11 @@ public class AddPartController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            Stage stage = (Stage) root.getScene().getWindow();
+//            Stage stage = (Stage) root.getScene().getWindow();
+//            stage.close();
+
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
         } 
         
@@ -203,9 +207,9 @@ public class AddPartController implements Initializable {
         stage.close();
     }
     
-    public void setRoot(Parent layout){
-        this.root = layout;
-    }
+//    public void setRoot(Parent layout){
+//        this.root = layout;
+//    }
     
     private void toggleCategoryFields(){
         if (getCategory().equals("Inhouse")) {
