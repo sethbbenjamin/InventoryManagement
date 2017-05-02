@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -34,7 +35,7 @@ public class InventoryManagementController implements Initializable {
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
-    private FXMLLoader loader;
+    private FXMLLoader addPartLoader;
 
     
     
@@ -87,7 +88,7 @@ public class InventoryManagementController implements Initializable {
 
         Stage stage = createAddPartStage(title);
 
-        AddPartController addPartController = loader.getController();
+        AddPartController addPartController = addPartLoader.getController();
         addPartController.setRoot(addPartRoot);
         addPartController.setTitle(title);
 
@@ -103,33 +104,40 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void modifyPartButtonAction(ActionEvent event) throws IOException{
         
-        String title = "Modify Part";
-        
-        Stage stage = createAddPartStage(title);
+
         Part part = partsTable.getSelectionModel().getSelectedItem();
         
-        
-        
-        AddPartController addPartController = loader.getController();
-        addPartController.setPart(part);
-        addPartController.setRoot(addPartRoot);
-        addPartController.setTitle(title);
-        
-        
-        //place at end so application doesn't "wait" before it should
-        stage.showAndWait();
-        
-        if(addPartController.isChanged()){
-            int i = partInventory.indexOf(part);
-            partInventory.set(i, addPartController.getPart());
+        if(part != null){
+            String title = "Modify Part";
+            Stage stage = createAddPartStage(title);
+
+            AddPartController addPartController = addPartLoader.getController();
+            addPartController.setPart(part);
+            addPartController.setRoot(addPartRoot);
+            addPartController.setTitle(title);
+
+
+            if (addPartController.isChanged()) {
+                int i = partInventory.indexOf(part);
+                partInventory.set(i, addPartController.getPart());
+            }
+  
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Notice");
+            alert.setHeaderText(null);
+            alert.setContentText("No part selected!");
+
+            alert.showAndWait();
         }
+        
         
     }
       
     private Stage createAddPartStage(String title)throws IOException{
         Stage stage = new Stage();
-        loader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
-        addPartRoot = loader.load();
+        addPartLoader = new FXMLLoader(getClass().getResource("AddPart.fxml"));
+        addPartRoot = addPartLoader.load();
         stage.setScene(new Scene(addPartRoot));
         stage.setTitle(title);
         stage.initModality(Modality.APPLICATION_MODAL);
