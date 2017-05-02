@@ -46,17 +46,17 @@
                   <Label minWidth="-Infinity" text="Parts" />
                   <Region prefHeight="200.0" prefWidth="200.0" />
                   <TextField fx:id="txtSearchPart" minWidth="-Infinity" promptText="Search part name" />
-                  <Button fx:id="btnSearchPart" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchPartButtonAction" text="Clear" />
+                  <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#clearPartButtonAction" text="Clear" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <TableView fx:id="partsTable" prefHeight="240.0" prefWidth="400.0">
+                  <TableView fx:id="partsTable" prefHeight="240.0" prefWidth="444.0">
                     <columns>
                       <TableColumn fx:id="partIDColumn" maxWidth="75.0" minWidth="-1.0" prefWidth="64.0" text="Part ID" />
                       <TableColumn fx:id="partNameColumn" minWidth="0.0" prefWidth="88.0" text="Part Name" />
-                        <TableColumn fx:id="instockColumn" prefWidth="102.0" text="Inventory Level" />
-                        <TableColumn fx:id="priceColumn" minWidth="-1.0" prefWidth="123.0" text="Price/cost per Unit" />
+                        <TableColumn fx:id="partInstockColumn" prefWidth="102.0" text="Inventory Level" />
+                        <TableColumn fx:id="partPriceColumn" minWidth="-1.0" prefWidth="123.0" text="Price/cost per Unit" />
                     </columns>
                   </TableView>
                </children>
@@ -83,18 +83,18 @@
                <children>
                   <Label minWidth="-Infinity" text="Products" />
                   <Region prefHeight="200.0" prefWidth="200.0" />
-                  <TextField minWidth="-Infinity" promptText="Search product name" />
-                  <Button minWidth="-Infinity" mnemonicParsing="false" text="Clear" />
+                  <TextField fx:id="txtSearchProduct" minWidth="-Infinity" promptText="Search product name" />
+                  <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#clearProdcutButtonAction" text="Clear" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <TableView prefHeight="240.0" prefWidth="400.0">
+                  <TableView fx:id="productsTable" prefHeight="240.0" prefWidth="471.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Product ID" />
-                        <TableColumn prefWidth="120.0" text="Product Name" />
-                        <TableColumn prefWidth="100.0" text="Inventory Level" />
-                        <TableColumn prefWidth="92.0" text="Price per Unit" />
+                        <TableColumn fx:id="productIDColumn" prefWidth="75.0" text="Product ID" />
+                        <TableColumn fx:id="productNameColumn" prefWidth="120.0" text="Product Name" />
+                        <TableColumn fx:id="productInstockColumn" prefWidth="100.0" text="Inventory Level" />
+                        <TableColumn fx:id="productPriceColumn" prefWidth="92.0" text="Price per Unit" />
                      </columns>
                   </TableView>
                </children>

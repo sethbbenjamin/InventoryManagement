@@ -3,6 +3,7 @@ package edu.wgu.sbro323;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -43,23 +44,14 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private Parent inventoryManagementRoot;
     
-    @FXML
-    private Parent addPartRoot;
+//    @FXML
+//    private Parent addPartRoot;
     
-//    @FXML
-//    private Button btnExit;
-//    
-//    @FXML
-//    private Button btnAddPart;
-//    @FXML
-//    private Button btnModifyPart;
-//    @FXML
-//    private Button btnDeletePart;
-//    @FXML
-//    private Button btnSearchPart;
     
     @FXML
     private TextField txtSearchPart;
+    @FXML
+    private TextField txtSearchProduct;
     
     //part table
     @FXML
@@ -69,17 +61,25 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private TableColumn<Part, String> partNameColumn;
     @FXML
-    private TableColumn<Part, Integer> instockColumn;
+    private TableColumn<Part, Integer> partInstockColumn;
     @FXML
-    private TableColumn<Part, Double>priceColumn;
+    private TableColumn<Part, Double>partPriceColumn;
+    
+    //product table
+    @FXML
+    private TableView<Product> productsTable;
+    @FXML
+    private TableColumn<Product, Integer> productIDColumn;
+    @FXML
+    private TableColumn<Product, String> productNameColumn;
+    @FXML
+    private TableColumn<Product, Integer> productInstockColumn;
+    @FXML
+    private TableColumn<Product, Double> productPriceColumn;
 
     
     @FXML
     private void exitButtonAction(ActionEvent event){
-
-        //final Node source = (Node) event.getSource();
-//        final Stage stage = (Stage) inventoryManagementRoot.getScene().getWindow();
-//        stage.close();
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
@@ -183,21 +183,26 @@ public class InventoryManagementController implements Initializable {
     
     
     @FXML
-    private void searchPartButtonAction(ActionEvent event){
+    private void clearPartButtonAction(ActionEvent event){
         txtSearchPart.clear();   
+    }
+    
+    @FXML
+    private void clearProdcutButtonAction(ActionEvent event) {
+        txtSearchProduct.clear();
     }
     
     private void initializePartsTable(){
         
         //Populate and bind table column data
         partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().PartIDProperty().asObject());
-        instockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().partIDProperty().asObject());
+        partInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        partPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
 
         //Format table cell "price" to display currency values
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        priceColumn.setCellFactory(column -> {
+        partPriceColumn.setCellFactory(column -> {
             return new TableCell<Part, Double>() {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
@@ -218,16 +223,15 @@ public class InventoryManagementController implements Initializable {
 
         txtSearchPart.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(part -> {
-                // If filter text is empty, display all persons.
+                // If filter text is empty, display all parts.
 
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (part.getName().toLowerCase().contains(lowerCaseFilter)) {
+                if(part.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 //No match
@@ -243,6 +247,63 @@ public class InventoryManagementController implements Initializable {
     }
     
     
+    private void initializeProductsTable() {
+
+        //Populate and bind table column data
+        productNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        productIDColumn.setCellValueFactory(cellData -> cellData.getValue().productIDProperty().asObject());
+        productInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        productPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        //Format table cell "price" to display currency values
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+        productPriceColumn.setCellFactory(column -> {
+            return new TableCell<Product, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        // Format as currency
+                        setText(currencyFormatter.format(item));
+                    }
+                }
+            };
+        });
+
+        FilteredList<Product> filteredData = new FilteredList<>(productInventory, p -> true);
+
+        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(product -> {
+                // If filter text is empty, display all products.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (product.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                //No match
+                return false;
+            });
+        });
+
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(productsTable.comparatorProperty());
+
+        productsTable.setItems(sortedData);
+    }
+
+
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -252,8 +313,15 @@ public class InventoryManagementController implements Initializable {
         partInventory.add(new Inhouse("chair", 14.99, 8, 3, 7, 007));
         partInventory.add(new Inhouse("head", 13.99, 3, 3, 7,77779));
         partInventory.add(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
+        
+        ArrayList<Part> plist = new ArrayList<>();
+        plist.add(new Inhouse("Joka", 13.99, 5,3,7,4557321));
+        productInventory.add(new Product("Prod", 99.85, 2, 3, 4, plist));
+        productInventory.add(new Product("Garni", 99.85, 2, 3, 4, plist));
 
         initializePartsTable();
+        initializeProductsTable();
+        
 
      
     } 

@@ -15,8 +15,9 @@ public abstract class Part {
 	private final IntegerProperty instock;
 	private final IntegerProperty min;
 	private final IntegerProperty max;
-        
-        private static int nextID = 100;
+                
+        private static int nextID = 3000;
+                
 	
 	
         Part(){
@@ -37,7 +38,8 @@ public abstract class Part {
            this.max = new SimpleIntegerProperty(max);
         }
         
-	private int generateNextID(){
+       //Used for demonstration purposes. A more robust ID management system would be needed
+        private int generateNextID(){
             return ++nextID;
         }
         
@@ -48,7 +50,7 @@ public abstract class Part {
         
         public int getPartID() {return partID.get();}
 	public void setPartID(int partID) {this.partID.set(partID);}     
-        public IntegerProperty PartIDProperty(){ return partID; }
+        public IntegerProperty partIDProperty(){ return partID; }
         
 	public double getPrice() {return price.get();}
 	public void setPrice(double price) {this.price.set(price);}
