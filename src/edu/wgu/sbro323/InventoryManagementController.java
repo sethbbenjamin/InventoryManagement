@@ -140,7 +140,6 @@ public class InventoryManagementController implements Initializable {
             alert.setTitle("Notice");
             alert.setHeaderText(null);
             alert.setContentText("No item selected!");
-
             alert.showAndWait();
         }
         
