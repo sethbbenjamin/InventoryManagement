@@ -91,10 +91,10 @@
                <children>
                   <TableView prefHeight="240.0" prefWidth="400.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
+                        <TableColumn prefWidth="75.0" text="Product ID" />
+                        <TableColumn prefWidth="120.0" text="Product Name" />
+                        <TableColumn prefWidth="100.0" text="Inventory Level" />
+                        <TableColumn prefWidth="92.0" text="Price per Unit" />
                      </columns>
                   </TableView>
                </children>

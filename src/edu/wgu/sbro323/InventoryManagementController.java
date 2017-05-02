@@ -116,6 +116,8 @@ public class InventoryManagementController implements Initializable {
             addPartController.setRoot(addPartRoot);
             addPartController.setTitle(title);
 
+            //place at end so application doesn't "wait" before it should
+            stage.showAndWait();
 
             if (addPartController.isChanged()) {
                 int i = partInventory.indexOf(part);
@@ -126,13 +128,12 @@ public class InventoryManagementController implements Initializable {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Notice");
             alert.setHeaderText(null);
-            alert.setContentText("No part selected!");
+            alert.setContentText("No item selected!");
 
             alert.showAndWait();
-        }
-        
-        
+        }    
     }
+    
       
     private Stage createAddPartStage(String title)throws IOException{
         Stage stage = new Stage();
