@@ -6,10 +6,16 @@
 package edu.wgu.sbro323;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
@@ -21,10 +27,11 @@ import javafx.scene.control.TextField;
 
 
 
-public class AddProductController implements Initializable {
+public class AddProductController extends InventoryController implements Initializable {
 
     
     private Product product;
+    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     
     
     
@@ -40,9 +47,23 @@ public class AddProductController implements Initializable {
     private TextField txtProductMin;
     @FXML
     private TextField txtProductMax;
+    @FXML
+    private TextField txtSearchPart;
     
     @FXML
     private Label lblTitle;
+    
+    //part table
+    @FXML
+    private TableView<Part> partsTable;
+    @FXML
+    private TableColumn<Part, Integer> partIDColumn;
+    @FXML
+    private TableColumn<Part, String> partNameColumn;
+    @FXML
+    private TableColumn<Part, Integer> partInstockColumn;
+    @FXML
+    private TableColumn<Part, Double> partPriceColumn;
     
     
     
@@ -68,6 +89,25 @@ public class AddProductController implements Initializable {
         txtProductMin.setText(Integer.toString(product.getMin()));
         txtProductMax.setText(Integer.toString(product.getMax()));
     }
+    
+    
+    private void initializePartsTable() {
+
+        //Populate and bind table column data
+        partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().partIDProperty().asObject());
+        partInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        partPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        //Format as currency
+        formatTableColumnCurrency(partPriceColumn);
+
+        //Bind table data to search field
+        SortedList<Part> sortedData = filterTableData(partInventory, txtSearchPart, partsTable);
+        partsTable.setItems(sortedData);
+    }
+    
+    
     
     
     /**

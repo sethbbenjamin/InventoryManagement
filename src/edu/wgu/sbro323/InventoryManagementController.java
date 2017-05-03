@@ -2,13 +2,11 @@ package edu.wgu.sbro323;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author elitebook
  */
-public class InventoryManagementController implements Initializable {
+public class InventoryManagementController extends InventoryController implements Initializable {
     
     
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
@@ -43,10 +40,6 @@ public class InventoryManagementController implements Initializable {
     
     @FXML
     private Parent inventoryManagementRoot;
-    
-//    @FXML
-//    private Parent addPartRoot;
-    
     
     @FXML
     private TextField txtSearchPart;
@@ -190,59 +183,6 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private void clearProdcutButtonAction(ActionEvent event) {
         txtSearchProduct.clear();
-    }
-    
-    private void formatTableColumnCurrency(TableColumn priceColumn){
-        //Format table cell "price" to display currency values
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        priceColumn.setCellFactory(column -> {
-            return new TableCell<Product, Double>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (item == null || empty) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        // Format as currency
-                        setText(currencyFormatter.format(item));
-                    }
-                }
-            };
-        });
-    }
-    
-    
-    //Bind table data to search field
-    private <T extends InventoryItem> SortedList<T> filterTableData(ObservableList<T> list, TextField txtField, TableView itemTable){
-        FilteredList<T> filteredData = new FilteredList<>(list, p -> true);
-
-        txtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(item -> {
-                // If filter text is empty, display all parts.
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                //String i = (InventoryItem)item.g
-                
-                if (item.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                //No match
-                return false;
-            });
-        });
-
-        SortedList<T> sortedData = new SortedList<>(filteredData);
-
-        sortedData.comparatorProperty().bind(itemTable.comparatorProperty());
-        
-        return sortedData;
     }
     
     private void initializePartsTable(){
