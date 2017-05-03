@@ -18,22 +18,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-/**
- * FXML Controller class
- *
- * @author Seth B
- */
-
-
-
-
 public class AddProductController extends InventoryController implements Initializable {
 
     
     private Product product;
-    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
     
-    
+    private boolean isChanged = false;
+
     
     @FXML
     private TextField txtProductName;
@@ -66,7 +58,13 @@ public class AddProductController extends InventoryController implements Initial
     private TableColumn<Part, Double> partPriceColumn;
     
     
+    public boolean isChanged() {
+        return isChanged;
+    }
     
+    public Product getData() {
+        return product;
+    }
     
     public void setProduct(Product product) {
         this.product = product;
@@ -77,19 +75,16 @@ public class AddProductController extends InventoryController implements Initial
 
     }
     
-    public void setTitle(String title){
-        this.lblTitle.setText(title);
+    public void setData(String title, ObservableList<Part>... inventory) {
+        setTitle(title);
+        
+        for(ObservableList<Part> i : inventory ){
+            this.partInventory = i;
+        }
+        
+        initializePartsTable();
+        
     }
-    
-    private void setFields() {
-        txtProductName.setText(product.getName());
-        txtProductID.setText(Integer.toString(product.getProductID()));
-        txtProductPrice.setText(Double.toString(product.getPrice()));
-        txtProductInventory.setText(Integer.toString(product.getInstock()));
-        txtProductMin.setText(Integer.toString(product.getMin()));
-        txtProductMax.setText(Integer.toString(product.getMax()));
-    }
-    
     
     private void initializePartsTable() {
 
@@ -106,6 +101,23 @@ public class AddProductController extends InventoryController implements Initial
         SortedList<Part> sortedData = filterTableData(partInventory, txtSearchPart, partsTable);
         partsTable.setItems(sortedData);
     }
+    
+    
+    public void setTitle(String title){
+        this.lblTitle.setText(title);
+    }
+    
+    private void setFields() {
+        txtProductName.setText(product.getName());
+        txtProductID.setText(Integer.toString(product.getProductID()));
+        txtProductPrice.setText(Double.toString(product.getPrice()));
+        txtProductInventory.setText(Integer.toString(product.getInstock()));
+        txtProductMin.setText(Integer.toString(product.getMin()));
+        txtProductMax.setText(Integer.toString(product.getMax()));
+    }
+    
+    
+
     
     
     

@@ -85,5 +85,10 @@ public abstract class InventoryController {
         });
     }
     
+
     
+//    public abstract void setTitle(String title);
+    public abstract void setData(String title, ObservableList<Part>...inventory);
+
+    public abstract <T> T getData();
 }

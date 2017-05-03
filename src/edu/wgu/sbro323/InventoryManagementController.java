@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -38,8 +37,8 @@ public class InventoryManagementController extends InventoryController implement
 
     
     
-    @FXML
-    private Parent inventoryManagementRoot;
+//    @FXML
+//    private Parent inventoryManagementRoot;
     
     @FXML
     private TextField txtSearchPart;
@@ -83,18 +82,42 @@ public class InventoryManagementController extends InventoryController implement
 
         String title = "Add Part";
         URL url = getClass().getResource("AddPart.fxml");
+        add(title, url, partInventory);
+    }
+    
+    public void setData(String title, ObservableList<Part>... inventory) {
+        //TO DO
+    }
+    
+    public ObservableList<Part> getPartInventory(){
+        return partInventory;
+    }
+ 
+    
+    private <T, C extends InventoryController> void add(String title, URL url, ObservableList<T> inventory, ObservableList<Part>... partInv){
         Stage stage = createStage(title, url);
 
-        AddPartController addPartController = loader.getController();
-        addPartController.setTitle(title);
+        C controller = loader.getController();
+        //controller.setTitle(title);
+        
 
-        //place at end so application doesn't "wait" before it should
+        controller.setData(title, partInv);
+        
+
         stage.showAndWait();
-              
-        if (addPartController.getPart() != null)
-        {
-            partInventory.add(addPartController.getPart());
+
+        if (controller.getData() != null) {
+            inventory.add(controller.getData());
         }
+    }
+    
+    @FXML
+    private void addProductButtonAction(ActionEvent event) {
+
+        String title = "Add Product";
+        URL url = getClass().getResource("AddProduct.fxml");
+        add(title, url, productInventory, partInventory);
+
     }
     
     @FXML
@@ -103,8 +126,6 @@ public class InventoryManagementController extends InventoryController implement
         Part part = partsTable.getSelectionModel().getSelectedItem();
         String title = "Modify Part";
         URL url = getClass().getResource("AddPart.fxml");
-
-        
                 
         if(itemIsSelected(part)){
             Stage stage = createStage(title, url);
@@ -117,12 +138,35 @@ public class InventoryManagementController extends InventoryController implement
 
             if (addPartController.isChanged()) {
                 int i = partInventory.indexOf(part);
-                partInventory.set(i, addPartController.getPart());
+                partInventory.set(i, addPartController.getData());
             }
             
         }      
     }
     
+    @FXML
+    private void modifyProductButtonAction(ActionEvent event) {
+
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+        String title = "Modify Product";
+        URL url = getClass().getResource("AddProduct.fxml");
+
+        if (itemIsSelected(product)) {
+            Stage stage = createStage(title, url);
+
+            AddProductController addProductController = loader.getController();
+            addProductController.setProduct(product);
+            addProductController.setTitle(title);
+
+            stage.showAndWait();
+
+            if (addProductController.isChanged()) {
+                int i = productInventory.indexOf(product);
+                productInventory.set(i, addProductController.getData());
+            }
+
+        }
+    }
     
     private <T> boolean itemIsSelected(T item) {
         
@@ -148,7 +192,7 @@ public class InventoryManagementController extends InventoryController implement
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(title);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+            //stage.initOwner(inventoryManagementRoot.getScene().getWindow());
 
         } catch(IOException e){
             e.printStackTrace();
@@ -218,6 +262,19 @@ public class InventoryManagementController extends InventoryController implement
         productsTable.setItems(sortedData);
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
+    public Object[] getData(){
+        
+        Object[] data = new Object[2];
+        data[0] = partInventory;
+        data[1] = productInventory;
+
+        return data;
+    }
 
     
     @Override

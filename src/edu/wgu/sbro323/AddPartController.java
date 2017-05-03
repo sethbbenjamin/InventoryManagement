@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +30,7 @@ import javafx.stage.Stage;
  *
  * @author elitebook
  */
-public class AddPartController implements Initializable {
+public class AddPartController extends InventoryController implements Initializable {
 
    
     private Part part;
@@ -71,8 +72,12 @@ public class AddPartController implements Initializable {
         return isChanged;
     }
 
-    public Part getPart() {
+    public Part getData() {
         return part;
+    }
+    
+    public void setData(String title, ObservableList<Part>...inventory){
+        setTitle(title);
     }
 
     public void setPart(Part part) {
