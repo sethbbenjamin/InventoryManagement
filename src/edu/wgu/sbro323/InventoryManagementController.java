@@ -192,72 +192,10 @@ public class InventoryManagementController implements Initializable {
         txtSearchProduct.clear();
     }
     
-    private void initializePartsTable(){
-        
-        //Populate and bind table column data
-        partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().partIDProperty().asObject());
-        partInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
-        partPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-
+    private void formatTableColumnCurrency(TableColumn priceColumn){
         //Format table cell "price" to display currency values
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        partPriceColumn.setCellFactory(column -> {
-            return new TableCell<Part, Double>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (item == null || empty) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        // Format as currency
-                        setText(currencyFormatter.format(item));
-                    }
-                }
-            };
-        });
-
-        FilteredList<Part> filteredData = new FilteredList<>(partInventory, p -> true);
-
-        txtSearchPart.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(part -> {
-                // If filter text is empty, display all parts.
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if(part.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                //No match
-                return false; 
-            });
-        });
-
-        SortedList<Part> sortedData = new SortedList<>(filteredData);
-
-        sortedData.comparatorProperty().bind(partsTable.comparatorProperty());
-
-        partsTable.setItems(sortedData);
-    }
-    
-    
-    private void initializeProductsTable() {
-
-        //Populate and bind table column data
-        productNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        productIDColumn.setCellValueFactory(cellData -> cellData.getValue().productIDProperty().asObject());
-        productInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
-        productPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-
-        //Format table cell "price" to display currency values
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-        productPriceColumn.setCellFactory(column -> {
+        priceColumn.setCellFactory(column -> {
             return new TableCell<Product, Double>() {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
@@ -273,21 +211,26 @@ public class InventoryManagementController implements Initializable {
                 }
             };
         });
+    }
+    
+    
+    //Bind table data to search field
+    private <T extends InventoryItem> SortedList<T> filterTableData(ObservableList<T> list, TextField txtField, TableView itemTable){
+        FilteredList<T> filteredData = new FilteredList<>(list, p -> true);
 
-        FilteredList<Product> filteredData = new FilteredList<>(productInventory, p -> true);
-
-        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(product -> {
-                // If filter text is empty, display all products.
+        txtField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(item -> {
+                // If filter text is empty, display all parts.
 
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (product.getName().toLowerCase().contains(lowerCaseFilter)) {
+                //String i = (InventoryItem)item.g
+                
+                if (item.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 //No match
@@ -295,10 +238,43 @@ public class InventoryManagementController implements Initializable {
             });
         });
 
-        SortedList<Product> sortedData = new SortedList<>(filteredData);
+        SortedList<T> sortedData = new SortedList<>(filteredData);
 
-        sortedData.comparatorProperty().bind(productsTable.comparatorProperty());
+        sortedData.comparatorProperty().bind(itemTable.comparatorProperty());
+        
+        return sortedData;
+    }
+    
+    private void initializePartsTable(){
+        
+        //Populate and bind table column data
+        partNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        partIDColumn.setCellValueFactory(cellData -> cellData.getValue().partIDProperty().asObject());
+        partInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        partPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
 
+        //Format as currency
+        formatTableColumnCurrency(partPriceColumn);
+        
+        //Bind table data to search field
+        SortedList<Part> sortedData = filterTableData(partInventory, txtSearchPart, partsTable);
+        partsTable.setItems(sortedData);
+    }
+    
+    
+    private void initializeProductsTable() {
+
+        //Populate and bind table column data
+        productNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        productIDColumn.setCellValueFactory(cellData -> cellData.getValue().productIDProperty().asObject());
+        productInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        productPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        //Format price column as currency
+        formatTableColumnCurrency(productPriceColumn);
+
+        //Bind table data to search field
+        SortedList<Product> sortedData = filterTableData(productInventory, txtSearchProduct, productsTable);
         productsTable.setItems(sortedData);
     }
 
@@ -306,7 +282,6 @@ public class InventoryManagementController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         
         //test data
         partInventory.add(new Inhouse("fish", 13.99, 5,3,7,4557321));
@@ -321,9 +296,6 @@ public class InventoryManagementController implements Initializable {
 
         initializePartsTable();
         initializeProductsTable();
-        
-
-     
     } 
     
     

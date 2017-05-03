@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public abstract class Part {
+public abstract class Part implements InventoryItem {
 
 	private final StringProperty name;
 	private final IntegerProperty partID;

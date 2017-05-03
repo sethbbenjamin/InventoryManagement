@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Product {
+public class Product implements InventoryItem {
 
     private ArrayList<Part> parts;
     private final IntegerProperty productID;

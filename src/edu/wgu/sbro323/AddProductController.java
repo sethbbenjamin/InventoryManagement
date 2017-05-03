@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -22,6 +23,11 @@ import javafx.scene.control.TextField;
 
 public class AddProductController implements Initializable {
 
+    
+    private Product product;
+    
+    
+    
     @FXML
     private TextField txtProductName;
     @FXML
@@ -34,6 +40,34 @@ public class AddProductController implements Initializable {
     private TextField txtProductMin;
     @FXML
     private TextField txtProductMax;
+    
+    @FXML
+    private Label lblTitle;
+    
+    
+    
+    
+    public void setProduct(Product product) {
+        this.product = product;
+
+        if (this.product != null) {
+            setFields();
+        }
+
+    }
+    
+    public void setTitle(String title){
+        this.lblTitle.setText(title);
+    }
+    
+    private void setFields() {
+        txtProductName.setText(product.getName());
+        txtProductID.setText(Integer.toString(product.getProductID()));
+        txtProductPrice.setText(Double.toString(product.getPrice()));
+        txtProductInventory.setText(Integer.toString(product.getInstock()));
+        txtProductMin.setText(Integer.toString(product.getMin()));
+        txtProductMax.setText(Integer.toString(product.getMax()));
+    }
     
     
     /**

@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wgu.sbro323.AddPartController">
    <bottom>
@@ -29,8 +30,8 @@
    <center>
       <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0" BorderPane.alignment="TOP_LEFT">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="0.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="100.0" minWidth="91.0" percentWidth="0.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="144.0" minWidth="135.0" prefWidth="135.0" />
             <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="30.0" />
             <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
@@ -47,6 +48,7 @@
             <Label text="Name" GridPane.rowIndex="1" />
             <Label text="Inv" GridPane.rowIndex="2" />
             <Label text="Price/Cost" GridPane.rowIndex="3" />
+            <Label text="Min" GridPane.rowIndex="4" />
             <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Max" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <VBox alignment="TOP_RIGHT" GridPane.rowIndex="5">
                <children>
@@ -58,6 +60,7 @@
             <TextField fx:id="txtPartName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtPartInventory" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="txtPartPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtPartMin" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="txtPartMax" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
@@ -65,27 +68,28 @@
                   <TextField fx:id="txtPartMachineID" />
                </children>
             </VBox>
-            <TextField fx:id="txtPartMin" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Min" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </center>
    <top>
-      <HBox prefHeight="41.0" prefWidth="500.0" spacing="25.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="41.0" prefWidth="500.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="lblTitle" text="Add Part">
+            <Label fx:id="lblTitle" alignment="TOP_LEFT" contentDisplay="TOP" text="Add Part">
                <HBox.margin>
                   <Insets right="25.0" />
-               </HBox.margin></Label>
-            <RadioButton fx:id="rbtnInhouse" alignment="CENTER_RIGHT" mnemonicParsing="false" selected="true" text="Inhouse">
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <RadioButton fx:id="rbtnInhouse" alignment="BOTTOM_RIGHT" mnemonicParsing="false" selected="true" text="Inhouse">
                <toggleGroup>
                   <ToggleGroup fx:id="categoryGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rbtnOutsourced" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Outsourced" toggleGroup="$categoryGroup" />
+            <RadioButton fx:id="rbtnOutsourced" alignment="BOTTOM_RIGHT" mnemonicParsing="false" text="Outsourced" toggleGroup="$categoryGroup" />
          </children>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </padding>
       </HBox>
    </top>
