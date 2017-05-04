@@ -30,10 +30,11 @@ import javafx.stage.Stage;
 public class InventoryManagementController extends InventoryController implements Initializable {
     
     
-    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
+//    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
+//    private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
-    private FXMLLoader loader;
+    private final Inventory inventory = new Inventory();
+    
 
     
     
@@ -77,95 +78,57 @@ public class InventoryManagementController extends InventoryController implement
         stage.close();
     }
     
-    @FXML
-    private void addPartButtonAction(ActionEvent event){
 
-        String title = "Add Part";
-        URL url = getClass().getResource("AddPart.fxml");
-        add(title, url, partInventory);
-    }
     
-    public void setData(String title, ObservableList<Part>... inventory) {
+    public void setData(String title, Inventory inventory) {
         //TO DO
     }
     
-    public ObservableList<Part> getPartInventory(){
-        return partInventory;
-    }
  
     
-    private <T, C extends InventoryController> void add(String title, URL url, ObservableList<T> inventory, ObservableList<Part>... partInv){
+    private <T extends InventoryController> void add(String title, URL url){
         Stage stage = createStage(title, url);
-
-        C controller = loader.getController();
-        //controller.setTitle(title);
+        T controller = getLoader().getController();        
         
-
-        controller.setData(title, partInv);
-        
-
+        controller.setData(title, inventory);
         stage.showAndWait();
-
-        if (controller.getData() != null) {
-            inventory.add(controller.getData());
-        }
+    }
+    
+    @FXML
+    private void addPartButtonAction(ActionEvent event) {
+        inventory.clear();
+        String title = "Add Part";
+        URL url = getClass().getResource("AddPart.fxml");
+        add(title, url);
     }
     
     @FXML
     private void addProductButtonAction(ActionEvent event) {
 
+        inventory.clear();
         String title = "Add Product";
         URL url = getClass().getResource("AddProduct.fxml");
-        add(title, url, productInventory, partInventory);
-
+        add(title, url);
     }
     
     @FXML
     private void modifyPartButtonAction(ActionEvent event){
 
         Part part = partsTable.getSelectionModel().getSelectedItem();
+        inventory.setPart(part);
         String title = "Modify Part";
         URL url = getClass().getResource("AddPart.fxml");
-                
-        if(itemIsSelected(part)){
-            Stage stage = createStage(title, url);
-            
-            AddPartController addPartController = loader.getController();
-            addPartController.setPart(part);
-            addPartController.setData(title);
-
-            stage.showAndWait();
-
-            if (addPartController.isChanged()) {
-                int i = partInventory.indexOf(part);
-                partInventory.set(i, addPartController.getData());
-            }
-            
-        }      
+        add(title, url);
     }
     
     @FXML
     private void modifyProductButtonAction(ActionEvent event) {
 
         Product product = productsTable.getSelectionModel().getSelectedItem();
+        inventory.setProduct(product);
         String title = "Modify Product";
         URL url = getClass().getResource("AddProduct.fxml");
-
-        if (itemIsSelected(product)) {
-            Stage stage = createStage(title, url);
-
-            AddProductController addProductController = loader.getController();
-            addProductController.setProduct(product);
-            addProductController.setTitle(title);
-
-            stage.showAndWait();
-
-            if (addProductController.isChanged()) {
-                int i = productInventory.indexOf(product);
-                productInventory.set(i, addProductController.getData());
-            }
-
-        }
+        add(title, url);
     }
     
     private <T> boolean itemIsSelected(T item) {
@@ -184,22 +147,6 @@ public class InventoryManagementController extends InventoryController implement
     }
     
       
-    private Stage createStage(String title, URL url){
-        Stage stage = new Stage();
-        loader = new FXMLLoader(url);
-        
-        try{
-            stage.setScene(new Scene(loader.load()));
-            stage.setTitle(title);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initOwner(inventoryManagementRoot.getScene().getWindow());
-
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        
-        return stage;
-    }
     
     @FXML
     private void deletePartButtonAction(){ 
@@ -213,7 +160,7 @@ public class InventoryManagementController extends InventoryController implement
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                partInventory.remove(part);
+                inventory.remove(part);
             }
         }
     }
@@ -241,7 +188,7 @@ public class InventoryManagementController extends InventoryController implement
         formatTableColumnCurrency(partPriceColumn);
         
         //Bind table data to search field
-        SortedList<Part> sortedData = filterTableData(partInventory, txtSearchPart, partsTable);
+        SortedList<Part> sortedData = filterTableData(inventory.getPartInventory(), txtSearchPart, partsTable);
         partsTable.setItems(sortedData);
     }
     
@@ -258,7 +205,7 @@ public class InventoryManagementController extends InventoryController implement
         formatTableColumnCurrency(productPriceColumn);
 
         //Bind table data to search field
-        SortedList<Product> sortedData = filterTableData(productInventory, txtSearchProduct, productsTable);
+        SortedList<Product> sortedData = filterTableData(inventory.getProductInventory(), txtSearchProduct, productsTable);
         productsTable.setItems(sortedData);
     }
 
@@ -267,30 +214,26 @@ public class InventoryManagementController extends InventoryController implement
      * @return
      */
     @Override
-    public Object[] getData(){
-        
-        Object[] data = new Object[2];
-        data[0] = partInventory;
-        data[1] = productInventory;
-
-        return data;
+    public Inventory getData(){
+        return inventory;
     }
 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        //test data
-        partInventory.add(new Inhouse("fish", 13.99, 5,3,7,4557321));
-        partInventory.add(new Inhouse("chair", 14.99, 8, 3, 7, 007));
-        partInventory.add(new Inhouse("head", 13.99, 3, 3, 7,77779));
-        partInventory.add(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
-        
-        ArrayList<Part> plist = new ArrayList<>();
-        plist.add(new Inhouse("Joka", 13.99, 5,3,7,4557321));
-        productInventory.add(new Product("Prod", 99.85, 2, 3, 4, plist));
-        productInventory.add(new Product("Garni", 99.85, 2, 3, 4, plist));
 
+        //test data
+        inventory.add(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
+        inventory.add(new Inhouse("chair", 14.99, 8, 3, 7, 007));
+        inventory.add(new Inhouse("head", 13.99, 3, 3, 7, 77779));
+        inventory.add(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
+
+        ArrayList<Part> plist = new ArrayList<>();
+        plist.add(new Inhouse("Joka", 13.99, 5, 3, 7, 4557321));
+        inventory.add(new Product("Prod", 99.85, 2, 3, 4, plist));
+        inventory.add(new Product("Garni", 99.85, 2, 3, 4, plist));
+        
+        
         initializePartsTable();
         initializeProductsTable();
     } 

@@ -32,7 +32,7 @@ import javafx.stage.Stage;
  */
 public class AddPartController extends InventoryController implements Initializable {
 
-   
+    private Inventory inventory;
     private Part part;
     
     private boolean isChanged = false;
@@ -68,7 +68,7 @@ public class AddPartController extends InventoryController implements Initializa
     @FXML
     private RadioButton rbtnOutsourced;
     
-    public boolean isChanged(){
+    private boolean isCategoryChanged(){
         return isChanged;
     }
 
@@ -76,18 +76,17 @@ public class AddPartController extends InventoryController implements Initializa
         return part;
     }
     
-    public void setData(String title, ObservableList<Part>...inventory){
+    public void setData(String title, Inventory inventory){
         setTitle(title);
-    }
-
-    public void setPart(Part part) {
-        this.part = part;
-
-        if (this.part != null) {
+        this.inventory = inventory;
+        
+        if (inventory.getPart() != null) {
+            this.part = inventory.getPart();
             setFields();
         }
-
+        
     }
+
     
     private void setTitle(String title){
         this.lblTitle.setText(title);
@@ -149,13 +148,8 @@ public class AddPartController extends InventoryController implements Initializa
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
-        } 
-        
-        
-        
+            closeWindow(event);
+        }    
     }
     
     private Part createNewPart(){      
@@ -181,8 +175,7 @@ public class AddPartController extends InventoryController implements Initializa
         } else if (isChanged){
             this.part = createNewPart();
             this.part.setPartID(Integer.valueOf(txtPartID.getText()));
-        }
-        
+        }       
         
         if(getCategory().equals("Inhouse")){
             Inhouse p = (Inhouse)part;
@@ -199,9 +192,9 @@ public class AddPartController extends InventoryController implements Initializa
         this.part.setMin(Integer.valueOf(txtPartMin.getText()));
         this.part.setMax(Integer.valueOf(txtPartMax.getText()));
         
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        inventory.add(part);
+        
+        closeWindow(event);
     }
     
     

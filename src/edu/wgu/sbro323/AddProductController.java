@@ -22,7 +22,7 @@ public class AddProductController extends InventoryController implements Initial
 
     
     private Product product;
-    private ObservableList<Part> partInventory;
+    private Inventory inventory;
     
     private boolean isChanged = false;
 
@@ -74,12 +74,10 @@ public class AddProductController extends InventoryController implements Initial
         }
     }
     
-    public void setData(String title, ObservableList<Part>... inventory) {
+    public void setData(String title, Inventory inventory) {
         setTitle(title);
         
-        for(ObservableList<Part> i : inventory ){
-            this.partInventory = i;
-        }
+        this.inventory = inventory;
         
         initializePartsTable();       
     }
@@ -96,7 +94,8 @@ public class AddProductController extends InventoryController implements Initial
         formatTableColumnCurrency(partPriceColumn);
 
         //Bind table data to search field
-        SortedList<Part> sortedData = filterTableData(partInventory, txtSearchPart, partsTable);
+        SortedList<Part> sortedData;
+        sortedData = filterTableData(inventory.getPartInventory(), txtSearchPart, partsTable);
         partsTable.setItems(sortedData);
     }
     

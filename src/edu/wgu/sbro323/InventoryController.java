@@ -5,14 +5,22 @@
  */
 package edu.wgu.sbro323;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.NumberFormat;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -20,9 +28,14 @@ import javafx.scene.control.TextField;
  */
 public abstract class InventoryController {
     
+    private FXMLLoader loader;
+
+    
+    public FXMLLoader getLoader(){
+        return loader;
+    }
     
     //Bind table data to search field
-
     /**
      *
      * @param <T>
@@ -85,10 +98,33 @@ public abstract class InventoryController {
         });
     }
     
+    
+    public void closeWindow(ActionEvent event){
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+    
+    public Stage createStage(String title, URL url) {
+        Stage stage = new Stage();
+        loader = new FXMLLoader(url);
 
+        try {
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initOwner(inventoryManagementRoot.getScene().getWindow());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return stage;
+    }
+    
     
 //    public abstract void setTitle(String title);
-    public abstract void setData(String title, ObservableList<Part>...inventory);
+    public abstract void setData(String title, Inventory inventory);
 
     public abstract <T> T getData();
 }
