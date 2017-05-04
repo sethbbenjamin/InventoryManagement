@@ -22,7 +22,7 @@ public class AddProductController extends InventoryController implements Initial
 
     
     private Product product;
-    private ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    private ObservableList<Part> partInventory;
     
     private boolean isChanged = false;
 
@@ -72,7 +72,6 @@ public class AddProductController extends InventoryController implements Initial
         if (this.product != null) {
             setFields();
         }
-
     }
     
     public void setData(String title, ObservableList<Part>... inventory) {
@@ -82,8 +81,7 @@ public class AddProductController extends InventoryController implements Initial
             this.partInventory = i;
         }
         
-        initializePartsTable();
-        
+        initializePartsTable();       
     }
     
     private void initializePartsTable() {
@@ -115,11 +113,7 @@ public class AddProductController extends InventoryController implements Initial
         txtProductMin.setText(Integer.toString(product.getMin()));
         txtProductMax.setText(Integer.toString(product.getMax()));
     }
-    
-    
-
-    
-    
+     
     
     
     /**

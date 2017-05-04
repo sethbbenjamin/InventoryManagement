@@ -89,7 +89,7 @@ public class AddPartController extends InventoryController implements Initializa
 
     }
     
-    public void setTitle(String title){
+    private void setTitle(String title){
         this.lblTitle.setText(title);
     }
     

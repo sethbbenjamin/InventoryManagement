@@ -132,7 +132,7 @@ public class InventoryManagementController extends InventoryController implement
             
             AddPartController addPartController = loader.getController();
             addPartController.setPart(part);
-            addPartController.setTitle(title);
+            addPartController.setData(title);
 
             stage.showAndWait();
 
