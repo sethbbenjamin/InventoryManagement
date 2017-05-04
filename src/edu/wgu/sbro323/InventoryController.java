@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 public abstract class InventoryController {
     
     private FXMLLoader loader;
-
     
     public FXMLLoader getLoader(){
         return loader;
@@ -126,5 +125,5 @@ public abstract class InventoryController {
 //    public abstract void setTitle(String title);
     public abstract void setData(String title, Inventory inventory);
 
-    public abstract <T> T getData();
+//    public abstract <T> T getData();
 }

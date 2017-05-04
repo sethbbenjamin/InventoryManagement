@@ -68,13 +68,10 @@ public class AddPartController extends InventoryController implements Initializa
     @FXML
     private RadioButton rbtnOutsourced;
     
-    private boolean isCategoryChanged(){
-        return isChanged;
-    }
+//    private boolean isCategoryChanged(){
+//        return isChanged;
+//    }
 
-    public Part getData() {
-        return part;
-    }
     
     public void setData(String title, Inventory inventory){
         setTitle(title);

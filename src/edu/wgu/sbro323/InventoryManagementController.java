@@ -209,15 +209,6 @@ public class InventoryManagementController extends InventoryController implement
         productsTable.setItems(sortedData);
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
-    public Inventory getData(){
-        return inventory;
-    }
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

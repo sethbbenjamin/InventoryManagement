@@ -58,28 +58,40 @@ public class AddProductController extends InventoryController implements Initial
     private TableColumn<Part, Double> partPriceColumn;
     
     
-    public boolean isChanged() {
-        return isChanged;
-    }
+    //part table
+    @FXML
+    private TableView<Part> attachedPartsTable;
+    @FXML
+    private TableColumn<Part, Integer> attachedPartIDColumn;
+    @FXML
+    private TableColumn<Part, String> attachedPartNameColumn;
+    @FXML
+    private TableColumn<Part, Integer> attachedPartInstockColumn;
+    @FXML
+    private TableColumn<Part, Double> attachedPartPriceColumn;
+
     
-    public Product getData() {
-        return product;
-    }
+//    public boolean isChanged() {
+//        return isChanged;
+//    }
+    
     
     public void setProduct(Product product) {
-        this.product = product;
+
+    }
+    
+    public void setData(String title, Inventory inventory) {
+        setTitle(title); 
+        this.inventory = inventory;
+        
+        this.product = inventory.getProduct();
 
         if (this.product != null) {
             setFields();
         }
-    }
-    
-    public void setData(String title, Inventory inventory) {
-        setTitle(title);
         
-        this.inventory = inventory;
-        
-        initializePartsTable();       
+        initializePartsTable();
+
     }
     
     private void initializePartsTable() {
@@ -99,6 +111,19 @@ public class AddProductController extends InventoryController implements Initial
         partsTable.setItems(sortedData);
     }
     
+    private void initializeAttachedPartsTable(ObservableList<Part> attachedParts) {
+
+        //Populate and bind table column data
+        attachedPartNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        attachedPartIDColumn.setCellValueFactory(cellData -> cellData.getValue().partIDProperty().asObject());
+        attachedPartInstockColumn.setCellValueFactory(cellData -> cellData.getValue().instockProperty().asObject());
+        attachedPartPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        //Format as currency
+        formatTableColumnCurrency(attachedPartPriceColumn);
+        attachedPartsTable.setItems(attachedParts);
+    }
+    
     
     public void setTitle(String title){
         this.lblTitle.setText(title);
@@ -111,6 +136,10 @@ public class AddProductController extends InventoryController implements Initial
         txtProductInventory.setText(Integer.toString(product.getInstock()));
         txtProductMin.setText(Integer.toString(product.getMin()));
         txtProductMax.setText(Integer.toString(product.getMax()));
+        
+        ObservableList<Part> attachedParts = FXCollections.observableList(product.getParts());
+        
+        initializeAttachedPartsTable(attachedParts);
     }
      
     
@@ -121,6 +150,7 @@ public class AddProductController extends InventoryController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+
     }    
     
 }
