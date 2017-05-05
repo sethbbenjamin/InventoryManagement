@@ -34,24 +34,28 @@ public class Inventory {
     }  
     
     
-    public void add(Part part){
+    public void update(Part part){
         if(this.part == null){
             partInventory.add(part);
-        } else {
+        } else if(!this.part.equals(part)) {
             partInventory.set(partInventory.indexOf(this.part), part);
         }
     }
     
-    public void add(Product product){
-        productInventory.add(product);
+    public void update(Product product) {
+        if (this.product == null) {
+            productInventory.add(product);
+        } else if (!this.product.equals(product)) {
+            productInventory.set(productInventory.indexOf(this.product), product);
+        }
     }
     
 //    private void update(Part newPart){
 //    }
     
-    private void update(Product newProduct) {
-        productInventory.set(productInventory.indexOf(this.product), newProduct);
-    }
+//    private void update(Product newProduct) {
+//        productInventory.set(productInventory.indexOf(this.product), newProduct);
+//    }
     
     public ObservableList<Part> getPartInventory(){
         return partInventory;

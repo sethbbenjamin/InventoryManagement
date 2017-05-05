@@ -135,19 +135,7 @@ public class AddPartController extends InventoryController implements Initializa
     }
     
     
-    @FXML
-    private void cancelButtonAction(ActionEvent event){
-        
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cancel Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            closeWindow(event);
-        }    
-    }
     
     private Part createNewPart(){      
         
@@ -174,6 +162,7 @@ public class AddPartController extends InventoryController implements Initializa
             this.part.setPartID(Integer.valueOf(txtPartID.getText()));
         }       
         
+        //assign machineID or Company Name based on category
         if(getCategory().equals("Inhouse")){
             Inhouse p = (Inhouse)part;
             p.setMachineID(Integer.valueOf(txtPartMachineID.getText()));
@@ -189,11 +178,15 @@ public class AddPartController extends InventoryController implements Initializa
         this.part.setMin(Integer.valueOf(txtPartMin.getText()));
         this.part.setMax(Integer.valueOf(txtPartMax.getText()));
         
-        inventory.add(part);
+        inventory.update(part);
         
         closeWindow(event);
     }
     
+    @FXML
+    private void cancelButtonAction(ActionEvent event) {
+        cancelButton(event);
+    }
     
     private void toggleCategoryFields(){
         if (getCategory().equals("Inhouse")) {

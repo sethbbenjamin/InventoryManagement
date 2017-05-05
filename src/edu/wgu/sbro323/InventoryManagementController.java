@@ -73,9 +73,10 @@ public class InventoryManagementController extends InventoryController implement
     
     @FXML
     private void exitButtonAction(ActionEvent event){
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+//        Node source = (Node) event.getSource();
+//        Stage stage = (Stage) source.getScene().getWindow();
+//        stage.close();
+        closeWindow(event);
     }
     
 
@@ -147,6 +148,7 @@ public class InventoryManagementController extends InventoryController implement
     }
     
       
+
     
     @FXML
     private void deletePartButtonAction(){ 
@@ -209,20 +211,21 @@ public class InventoryManagementController extends InventoryController implement
         productsTable.setItems(sortedData);
     }
 
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         //test data
-        inventory.add(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
-        inventory.add(new Inhouse("chair", 14.99, 8, 3, 7, 007));
-        inventory.add(new Inhouse("head", 13.99, 3, 3, 7, 77779));
-        inventory.add(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
+        inventory.update(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
+        inventory.update(new Inhouse("chair", 14.99, 8, 3, 7, 007));
+        inventory.update(new Inhouse("head", 13.99, 3, 3, 7, 77779));
+        inventory.update(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
 
         ArrayList<Part> plist = new ArrayList<>();
         plist.add(new Inhouse("Joka", 13.99, 5, 3, 7, 4557321));
-        inventory.add(new Product("Prod", 99.85, 2, 3, 4, plist));
-        inventory.add(new Product("Garni", 99.85, 2, 3, 4, plist));
+        inventory.update(new Product("Prod", 99.85, 2, 3, 4, plist));
+        inventory.update(new Product("Garni", 99.85, 2, 3, 4, plist));
         
         
         initializePartsTable();

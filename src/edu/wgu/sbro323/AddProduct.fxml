@@ -39,7 +39,7 @@
             <Label text="Price" GridPane.rowIndex="4" />
             <Label text="Min" GridPane.rowIndex="5" />
             <Label text="Max" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField fx:id="txtProductID" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <TextField fx:id="txtProductID" disable="true" editable="false" promptText="Product ID (auto)" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <TextField fx:id="txtProductName" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
             <TextField fx:id="txtProductInventory" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
             <TextField fx:id="txtProductPrice" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
@@ -57,7 +57,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
                   <TextField fx:id="txtSearchPart" promptText="Part name search" />
-                  <Button mnemonicParsing="false" text="Clear" />
+                  <Button mnemonicParsing="false" onAction="#clearPartButtonAction" text="Clear" />
                </children>
             </HBox>
             <TableView fx:id="partsTable" prefHeight="200.0" prefWidth="200.0">
@@ -70,7 +70,7 @@
             </TableView>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" text="Attach" />
+                <Button mnemonicParsing="false" onAction="#attachButtonAction" text="Attach" />
               </buttons>
             </ButtonBar>
             <TableView fx:id="attachedPartsTable" prefHeight="200.0" prefWidth="200.0">
@@ -83,15 +83,15 @@
             </TableView>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" text="Remove" />
+                <Button mnemonicParsing="false" onAction="#removeButtonAction" text="Remove" />
               </buttons>
             </ButtonBar>
          </children>
       </VBox>
       <ButtonBar layoutX="535.0" layoutY="586.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Cancel" />
-            <Button mnemonicParsing="false" text="Save" />
+          <Button mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
         </buttons>
       </ButtonBar>
    </children>

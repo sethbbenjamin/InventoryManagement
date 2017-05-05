@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,7 +17,11 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exitButtonAction" text="Exit" />
+            <ButtonBar>
+               <buttons>
+                  <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exitButtonAction" text="Exit" />
+               </buttons>
+            </ButtonBar>
          </children>
          <BorderPane.margin>
             <Insets />
@@ -45,7 +50,7 @@
    <left>
       <VBox id="parts" spacing="10.0" style="-fx-border-color: black; -fx-border-radius: 20;" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="50.0" spacing="10.0">
+            <HBox prefHeight="50.0" spacing="5.0">
                <children>
                   <Label minWidth="-Infinity" text="Parts" />
                   <Region prefHeight="200.0" prefWidth="200.0" />
@@ -67,9 +72,13 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="btnAddPart" mnemonicParsing="false" onAction="#addPartButtonAction" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#modifyPartButtonAction" text="Modify" />
-                  <Button fx:id="btnDeletePart" mnemonicParsing="false" onAction="#deletePartButtonAction" text="Delete" />
+                  <ButtonBar>
+                     <buttons>
+                        <Button fx:id="btnAddPart" mnemonicParsing="false" onAction="#addPartButtonAction" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#modifyPartButtonAction" text="Modify" />
+                        <Button fx:id="btnDeletePart" mnemonicParsing="false" onAction="#deletePartButtonAction" text="Delete" />
+                     </buttons>
+                  </ButtonBar>
                </children>
             </HBox>
          </children>
@@ -83,7 +92,7 @@
    <right>
       <VBox spacing="10.0" style="-fx-border-color: black; -fx-border-radius: 20;" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="50.0" spacing="10.0">
+            <HBox prefHeight="50.0" spacing="5.0">
                <children>
                   <Label minWidth="-Infinity" text="Products" />
                   <Region prefHeight="200.0" prefWidth="200.0" />
@@ -105,9 +114,13 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addProductButtonAction" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <ButtonBar>
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#addProductButtonAction" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
+                        <Button mnemonicParsing="false" text="Delete" />
+                     </buttons>
+                  </ButtonBar>
                </children>
             </HBox>
          </children>

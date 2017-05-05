@@ -1,20 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.wgu.sbro323;
 
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.Optional;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,6 +28,11 @@ import javafx.stage.Stage;
 public abstract class InventoryController {
     
     private FXMLLoader loader;
+    
+    
+    public abstract void setData(String title, Inventory inventory);
+
+    
     
     public FXMLLoader getLoader(){
         return loader;
@@ -104,6 +108,21 @@ public abstract class InventoryController {
         stage.close();
     }
     
+    
+    public void cancelButton(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancel Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            closeWindow(event);
+        }
+    }
+    
+    
     public Stage createStage(String title, URL url) {
         Stage stage = new Stage();
         loader = new FXMLLoader(url);
@@ -122,8 +141,5 @@ public abstract class InventoryController {
     }
     
     
-//    public abstract void setTitle(String title);
-    public abstract void setData(String title, Inventory inventory);
 
-//    public abstract <T> T getData();
 }
