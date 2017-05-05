@@ -36,7 +36,7 @@
          <children>
             <Label text="Inventory Management System">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font></Label>
          </children>
          <padding>
@@ -52,7 +52,10 @@
          <children>
             <HBox prefHeight="50.0" spacing="5.0">
                <children>
-                  <Label minWidth="-Infinity" text="Parts" />
+                  <Label minWidth="-Infinity" text="Parts">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
                   <Region prefHeight="200.0" prefWidth="200.0" />
                   <TextField fx:id="txtSearchPart" minWidth="-Infinity" promptText="Search part name" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#clearPartButtonAction" text="Clear" />
@@ -94,7 +97,10 @@
          <children>
             <HBox prefHeight="50.0" spacing="5.0">
                <children>
-                  <Label minWidth="-Infinity" text="Products" />
+                  <Label minWidth="-Infinity" text="Products">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
                   <Region prefHeight="200.0" prefWidth="200.0" />
                   <TextField fx:id="txtSearchProduct" minWidth="-Infinity" promptText="Search product name" />
                   <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#clearProdcutButtonAction" text="Clear" />
@@ -118,7 +124,7 @@
                      <buttons>
                         <Button mnemonicParsing="false" onAction="#addProductButtonAction" text="Add" />
                         <Button mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#deleteProductButtonAction" text="Delete" />
                      </buttons>
                   </ButtonBar>
                </children>

@@ -154,7 +154,9 @@ public class AddProductController extends InventoryController implements Initial
     @FXML
     private void attachButtonAction(ActionEvent event){
         Part part = partsTable.getSelectionModel().getSelectedItem();
-        attachedParts.add(part);
+        if(itemIsSelected(part)){
+            attachedParts.add(part);
+        }
     }
     
     @FXML
@@ -186,7 +188,9 @@ public class AddProductController extends InventoryController implements Initial
     @FXML
     private void removeButtonAction(ActionEvent event){
         Part part = attachedPartsTable.getSelectionModel().getSelectedItem();
-        attachedParts.remove(part);
+        if(itemIsSelected(part)){
+            attachedParts.remove(part);
+        }
     }
     
     @FXML

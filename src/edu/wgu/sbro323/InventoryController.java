@@ -140,6 +140,30 @@ public abstract class InventoryController {
         return stage;
     }
     
+    public <T> boolean itemIsSelected(T item) {
+
+        if (item != null) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Notice");
+            alert.setHeaderText(null);
+            alert.setContentText("No item selected!");
+            alert.showAndWait();
+        }
+
+        return false;
+    }
+    
+    public boolean deleteConfirmed() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Delete Item?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return (result.get() == ButtonType.OK);
+    }
     
 
 }

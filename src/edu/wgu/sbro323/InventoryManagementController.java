@@ -116,36 +116,27 @@ public class InventoryManagementController extends InventoryController implement
     private void modifyPartButtonAction(ActionEvent event){
 
         Part part = partsTable.getSelectionModel().getSelectedItem();
-        inventory.setPart(part);
-        String title = "Modify Part";
-        URL url = getClass().getResource("AddPart.fxml");
-        add(title, url);
+        if(itemIsSelected(part)){
+            inventory.setPart(part);
+            String title = "Modify Part";
+            URL url = getClass().getResource("AddPart.fxml");
+            add(title, url);
+        }
     }
     
     @FXML
     private void modifyProductButtonAction(ActionEvent event) {
 
         Product product = productsTable.getSelectionModel().getSelectedItem();
-        inventory.setProduct(product);
-        String title = "Modify Product";
-        URL url = getClass().getResource("AddProduct.fxml");
-        add(title, url);
+        if(itemIsSelected(product)){
+            inventory.setProduct(product);
+            String title = "Modify Product";
+            URL url = getClass().getResource("AddProduct.fxml");
+            add(title, url);
+        }
     }
     
-    private <T> boolean itemIsSelected(T item) {
-        
-        if (item != null) {
-            return true;
-        } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Notice");
-            alert.setHeaderText(null);
-            alert.setContentText("No item selected!");
-            alert.showAndWait();
-        }
-        
-        return false;
-    }
+
     
       
 
@@ -154,19 +145,25 @@ public class InventoryManagementController extends InventoryController implement
     private void deletePartButtonAction(){ 
         Part part = partsTable.getSelectionModel().getSelectedItem();
 
-        if(part != null){    
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Confirmation");
-            alert.setHeaderText(null);
-            alert.setContentText("Delete Part?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
+        if (itemIsSelected(part)) {
+            if (deleteConfirmed()){
                 inventory.remove(part);
             }
         }
     }
     
+    @FXML
+    private void deleteProductButtonAction() {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+
+        if (itemIsSelected(product)) {
+            if (deleteConfirmed()){
+                inventory.remove(product);
+            }
+        }
+    }
+    
+
     
     @FXML
     private void clearPartButtonAction(ActionEvent event){
