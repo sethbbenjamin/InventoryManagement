@@ -1,26 +1,16 @@
 package edu.wgu.sbro323;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -69,6 +59,11 @@ public class InventoryManagementController extends InventoryController implement
     private TableColumn<Product, Integer> productInstockColumn;
     @FXML
     private TableColumn<Product, Double> productPriceColumn;
+    
+    @FXML
+    private Button btnModifyPart;
+    @FXML
+    private Button btnModifyProduct;
 
     
     @FXML
@@ -189,6 +184,8 @@ public class InventoryManagementController extends InventoryController implement
         //Bind table data to search field
         SortedList<Part> sortedData = filterTableData(inventory.getPartInventory(), txtSearchPart, partsTable);
         partsTable.setItems(sortedData);
+        
+        toggleModifyButton(btnModifyPart, partsTable);
     }
     
     
@@ -206,6 +203,7 @@ public class InventoryManagementController extends InventoryController implement
         //Bind table data to search field
         SortedList<Product> sortedData = filterTableData(inventory.getProductInventory(), txtSearchProduct, productsTable);
         productsTable.setItems(sortedData);
+        toggleModifyButton(btnModifyProduct, productsTable);
     }
 
 
@@ -227,6 +225,11 @@ public class InventoryManagementController extends InventoryController implement
         
         initializePartsTable();
         initializeProductsTable();
+        
+
+
+
+        
     } 
     
     

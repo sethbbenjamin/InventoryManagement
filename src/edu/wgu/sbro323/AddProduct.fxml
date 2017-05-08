@@ -91,7 +91,7 @@
       <ButtonBar layoutX="535.0" layoutY="586.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
-            <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
         </buttons>
       </ButtonBar>
    </children>

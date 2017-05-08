@@ -8,12 +8,14 @@ package edu.wgu.sbro323;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -46,6 +48,10 @@ public class AddProductController extends InventoryController implements Initial
     
     @FXML
     private Label lblTitle;
+    
+    @FXML
+    private Button btnSave;
+
     
     
     //part table
@@ -172,27 +178,38 @@ public class AddProductController extends InventoryController implements Initial
         }
         
         String name = txtProductName.getText();
-        double price = Double.valueOf(txtProductPrice.getText());
-        int instock = Integer.valueOf(txtProductInventory.getText());
-        int min = Integer.valueOf(txtProductMin.getText());
-        int max = Integer.valueOf(txtProductMax.getText());
         
-        if(validate(name, price, instock, min, max)){
-            this.product.setName(name);
-            this.product.setPrice(price);
-            this.product.setInstock(instock);
-            this.product.setMin(min);
-            this.product.setMax(max);
-
+        try{
+            double price = Double.valueOf(txtProductPrice.getText());
+            int instock = Integer.valueOf(txtProductInventory.getText());
+            int min = Integer.valueOf(txtProductMin.getText());
+            int max = Integer.valueOf(txtProductMax.getText()); 
+            
             ArrayList<Part> attached = new ArrayList<>(attachedParts);
-            this.product.setParts(attached);
 
-            inventory.update(product);
+            if (validate(name, price, instock, min, max)) {
+                this.product.setName(name);
+                this.product.setPrice(price);
+                this.product.setInstock(instock);
+                this.product.setMin(min);
+                this.product.setMax(max);
+
+                this.product.setParts(attached);
+
+                inventory.update(product);
+                closeWindow(event);
+            }
+            
+        } catch (NumberFormatException e){
+            System.out.println(e.getMessage());
         }
+
+        
+ 
         
 
         
-        closeWindow(event);
+        
     }
     
     @FXML
@@ -217,6 +234,17 @@ public class AddProductController extends InventoryController implements Initial
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 
+        btnSave.disableProperty().bind(Bindings.isEmpty(txtProductName.textProperty())
+                .or(Bindings.isEmpty(txtProductPrice.textProperty()))
+                .or(Bindings.isEmpty(txtProductInventory.textProperty()))
+                .or(Bindings.isEmpty(txtProductMin.textProperty()))
+                .or(Bindings.isEmpty(txtProductMax.textProperty()))
+        
+        );
+        
+       
+        
+        
     }    
     
 }

@@ -8,11 +8,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -196,6 +196,27 @@ public abstract class InventoryController {
         }
         
         return valid;
+    }
+    
+    public void toggleModifyButton(Button modifyButton, TableView table){
+        
+        modifyButton.setDisable(true);
+
+        
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                modifyButton.setDisable(true);
+
+            }
+
+            if (newSelection != null) {
+                modifyButton.setDisable(false);
+            }
+
+        });
+
     }
     
 

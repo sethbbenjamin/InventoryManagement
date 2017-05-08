@@ -78,7 +78,7 @@
                   <ButtonBar>
                      <buttons>
                         <Button fx:id="btnAddPart" mnemonicParsing="false" onAction="#addPartButtonAction" text="Add" />
-                        <Button mnemonicParsing="false" onAction="#modifyPartButtonAction" text="Modify" />
+                        <Button fx:id="btnModifyPart" mnemonicParsing="false" onAction="#modifyPartButtonAction" text="Modify" />
                         <Button fx:id="btnDeletePart" mnemonicParsing="false" onAction="#deletePartButtonAction" text="Delete" />
                      </buttons>
                   </ButtonBar>
@@ -123,7 +123,7 @@
                   <ButtonBar>
                      <buttons>
                         <Button mnemonicParsing="false" onAction="#addProductButtonAction" text="Add" />
-                        <Button mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
+                        <Button fx:id="btnModifyProduct" mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
                         <Button mnemonicParsing="false" onAction="#deleteProductButtonAction" text="Delete" />
                      </buttons>
                   </ButtonBar>
