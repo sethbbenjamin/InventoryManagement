@@ -135,8 +135,6 @@ public class AddPartController extends InventoryController implements Initializa
     }
     
     
-
-    
     private Part createNewPart(){      
         
         Part newPart;

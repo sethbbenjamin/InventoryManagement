@@ -165,5 +165,38 @@ public abstract class InventoryController {
         return (result.get() == ButtonType.OK);
     }
     
+    public boolean validate(String name, double price, int inventory, int min, int max){
+        boolean isValid = validateInventory(min, max, inventory);
+        
+        try{
+            if(name == null || name.isEmpty()){
+                throw new IllegalArgumentException("Name must not be blank");
+            }
+        } catch(IllegalArgumentException e){
+            isValid = false;
+            System.out.println(e.getMessage());
+        }
+        
+        
+        return isValid;
+    }
+    
+    public boolean validateInventory(int min, int max, int inventory){
+        boolean valid = true;
+        try{
+            if((inventory < min) || (inventory > max)){
+                throw new InvalidInventoryException("Inventory must be between min and max");
+            } else if(min > max){
+                throw new InvalidInventoryException("Min must be less than max");
+            }
+        } catch (InvalidInventoryException e){
+            valid = false;
+            System.out.println(e.getMessage());
+
+        }
+        
+        return valid;
+    }
+    
 
 }

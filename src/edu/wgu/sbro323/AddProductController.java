@@ -171,16 +171,26 @@ public class AddProductController extends InventoryController implements Initial
             this.product = new Product();
         }
         
-        this.product.setName(txtProductName.getText());
-        this.product.setPrice(Double.valueOf(txtProductPrice.getText()));
-        this.product.setInstock(Integer.valueOf(txtProductInventory.getText()));
-        this.product.setMin(Integer.valueOf(txtProductMin.getText()));
-        this.product.setMax(Integer.valueOf(txtProductMax.getText()));
+        String name = txtProductName.getText();
+        double price = Double.valueOf(txtProductPrice.getText());
+        int instock = Integer.valueOf(txtProductInventory.getText());
+        int min = Integer.valueOf(txtProductMin.getText());
+        int max = Integer.valueOf(txtProductMax.getText());
         
-        ArrayList<Part> attached = new ArrayList<>(attachedParts);
-        this.product.setParts(attached);
+        if(validate(name, price, instock, min, max)){
+            this.product.setName(name);
+            this.product.setPrice(price);
+            this.product.setInstock(instock);
+            this.product.setMin(min);
+            this.product.setMax(max);
+
+            ArrayList<Part> attached = new ArrayList<>(attachedParts);
+            this.product.setParts(attached);
+
+            inventory.update(product);
+        }
         
-        inventory.update(product);
+
         
         closeWindow(event);
     }
