@@ -52,6 +52,23 @@ public class Product implements InventoryItem {
     public void setParts(ArrayList<Part> parts) {
         this.parts = parts;
     }
+    
+    public void addPart(Part part){
+        this.parts.add(part);
+    }
+    
+    public void removePart(int id){
+        this.parts.remove(id);
+    }
+    
+    public Part lookupPart(int id){
+        return this.parts.get(id);
+    }
+    
+    public void updatePart(Part part){
+        int index = this.parts.indexOf(part);
+        this.parts.set(index, part);
+    }
 
     public int getProductID() {
         return productID.get();

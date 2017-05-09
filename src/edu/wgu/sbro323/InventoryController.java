@@ -3,6 +3,7 @@ package edu.wgu.sbro323;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -165,8 +166,33 @@ public abstract class InventoryController {
         return (result.get() == ButtonType.OK);
     }
     
+    public boolean validateAttachedParts(ArrayList<Part> attached, double price){
+        boolean isValid = true;
+        
+        try{
+            if (attached.isEmpty()) {
+                throw new InvalidInventoryException("No parts attached");
+            }
+
+            double sum = 0;
+            for (Part part : attached) {
+                sum += part.getPrice();
+            }
+            
+            if(price < sum){
+                throw new InvalidInventoryException("Price less than sum of parts");
+            }
+            
+        } catch(InvalidInventoryException e){
+            System.out.println(e.getMessage());
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    
     public boolean validate(String name, double price, int inventory, int min, int max){
-        boolean isValid = validateInventory(min, max, inventory);
+        boolean isValid = validateInventory(inventory, min, max);
         
         try{
             if(name == null || name.isEmpty()){
@@ -176,23 +202,23 @@ public abstract class InventoryController {
             isValid = false;
             System.out.println(e.getMessage());
         }
-        
-        
+
         return isValid;
     }
     
-    public boolean validateInventory(int min, int max, int inventory){
+    public boolean validateInventory(int inventory, int min, int max){
         boolean valid = true;
         try{
             if((inventory < min) || (inventory > max)){
                 throw new InvalidInventoryException("Inventory must be between min and max");
             } else if(min > max){
                 throw new InvalidInventoryException("Min must be less than max");
+            } else if(inventory < 0 || min < 0 || max < 0){
+                throw new InvalidInventoryException("Cannot be negative");
             }
         } catch (InvalidInventoryException e){
             valid = false;
             System.out.println(e.getMessage());
-
         }
         
         return valid;

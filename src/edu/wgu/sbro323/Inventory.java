@@ -1,5 +1,6 @@
 package edu.wgu.sbro323;
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,11 +10,43 @@ import javafx.collections.ObservableList;
  */
 public class Inventory {
     
+    
+    private ArrayList<Product> products;
+    
     private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
     private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
     
     private Part part;
     private Product product;
+    
+    
+    
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
+    
+    public boolean removeProduct(int id){
+
+        Product p = lookupProduct(id);
+        if(p != null){
+            this.products.remove(p);
+            return true;
+        } else {
+            return false;
+        }      
+    }
+    
+    public Product lookupProduct(int id){
+        
+        for(Product p : products){
+            if(p.getProductID() == id){
+                return p;
+            }
+        }
+        
+        return null;
+    }
+    
     
     
     public void setPart(Part part){

@@ -187,7 +187,7 @@ public class AddProductController extends InventoryController implements Initial
             
             ArrayList<Part> attached = new ArrayList<>(attachedParts);
 
-            if (validate(name, price, instock, min, max)) {
+            if (validate(name, price, instock, min, max) && validateAttachedParts(attached, price)) {
                 this.product.setName(name);
                 this.product.setPrice(price);
                 this.product.setInstock(instock);
@@ -201,14 +201,11 @@ public class AddProductController extends InventoryController implements Initial
             }
             
         } catch (NumberFormatException e){
-            System.out.println(e.getMessage());
+            System.out.println("Must be a valid number: " + e.getMessage());
+//            e.printStackTrace();
         }
 
-        
- 
-        
-
-        
+      
         
     }
     
