@@ -20,14 +20,14 @@ public abstract class Part implements InventoryItem {
                 
 	
 	
-        Part(){
-           name  = new SimpleStringProperty();
-           partID = new SimpleIntegerProperty(generateNextID());
-           price = new SimpleDoubleProperty();
-           instock = new SimpleIntegerProperty();
-           min = new SimpleIntegerProperty();
-           max = new SimpleIntegerProperty();
-        }
+//        Part(){
+//           name  = new SimpleStringProperty();
+//           partID = new SimpleIntegerProperty(generateNextID());
+//           price = new SimpleDoubleProperty();
+//           instock = new SimpleIntegerProperty();
+//           min = new SimpleIntegerProperty();
+//           max = new SimpleIntegerProperty();
+//        }
         
 	Part(String name, Double price, Integer instock, Integer min, Integer max){
            this.name  = new SimpleStringProperty(name);

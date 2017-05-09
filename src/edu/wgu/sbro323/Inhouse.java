@@ -4,10 +4,10 @@ public class Inhouse extends Part {
 
 	private int machineID;
         
-        Inhouse(){
-            super();
-            this.machineID = 0;
-        }
+//        Inhouse(){
+//            super();
+//            this.machineID = 0;
+//        }
         
         Inhouse(String name, Double price, int instock, int min, int max, int machineID){
             super(name, price, instock, min, max);

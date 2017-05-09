@@ -167,8 +167,7 @@ public class AddPartController extends InventoryController implements Initializa
         } else if (getCategory().equals("Outsourced")){
             Outsourced p = (Outsourced) part;
             p.setCompanyName(txtPartCompany.getText());
-        }
-        
+        }       
 
         this.part.setName(txtPartName.getText());
         this.part.setPrice(Double.valueOf(txtPartPrice.getText()));

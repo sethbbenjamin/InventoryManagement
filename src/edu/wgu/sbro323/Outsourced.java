@@ -4,9 +4,9 @@ public class Outsourced extends Part {
 
 	private String companyName;
 
-        Outsourced(){
-            
-        }
+//        Outsourced(){
+//            
+//        }
         
         Outsourced(String name, Double price, Integer instock, Integer min, Integer max, String companyName) {
         super(name, price, instock, min, max);

@@ -99,7 +99,6 @@ public class AddProductController extends InventoryController implements Initial
 
         if (this.product != null) {
             setFields();
-            //attachedParts = FXCollections.observableList(product.getParts());
             attachedParts = FXCollections.observableArrayList(product.getParts());
         }
         
@@ -172,41 +171,55 @@ public class AddProductController extends InventoryController implements Initial
     
     @FXML
     private void saveButtonAction(ActionEvent event){
+
+        ArrayList<Part> attached = new ArrayList<>(attachedParts);
+
         
-        if(this.product == null){
-            this.product = new Product();
-        }
-        
-        String name = txtProductName.getText();
-        
-        try{
+        try{        
+            String name = txtProductName.getText();
+            
             double price = Double.valueOf(txtProductPrice.getText());
             int instock = Integer.valueOf(txtProductInventory.getText());
             int min = Integer.valueOf(txtProductMin.getText());
             int max = Integer.valueOf(txtProductMax.getText()); 
-            
-            ArrayList<Part> attached = new ArrayList<>(attachedParts);
 
-            if (validate(name, price, instock, min, max) && validateAttachedParts(attached, price)) {
-                this.product.setName(name);
-                this.product.setPrice(price);
-                this.product.setInstock(instock);
-                this.product.setMin(min);
-                this.product.setMax(max);
+            if (this.product == null) {
 
-                this.product.setParts(attached);
+                try{
+                    this.product = new Product(name, price, instock, min, max, attached);
+                    inventory.addProduct(this.product); 
+                    closeWindow(event);
+                } catch(IllegalArgumentException | InvalidInventoryException e) {
+                    //TODO add to error list
+                    System.out.println(e.getMessage());
+                }
 
-                inventory.update(product);
-                closeWindow(event);
+            } else {
+                
+                try{
+                    this.product.setName(name);
+                    this.product.setPrice(price);
+                    this.product.setInstock(instock);
+                    this.product.setMin(min);
+                    this.product.setMax(max);
+
+                    this.product.setParts(attached);
+                    inventory.update(product);
+                    closeWindow(event);
+
+                }catch(IllegalArgumentException | InvalidInventoryException e) {
+                    //TODO add to error list
+                    System.out.println(e.getMessage());
+                }
+
             }
-            
+
+ 
         } catch (NumberFormatException e){
             System.out.println("Must be a valid number: " + e.getMessage());
 //            e.printStackTrace();
         }
-
-      
-        
+ 
     }
     
     @FXML

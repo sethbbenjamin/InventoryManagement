@@ -142,7 +142,7 @@ public class InventoryManagementController extends InventoryController implement
 
         if (itemIsSelected(part)) {
             if (deleteConfirmed()){
-                inventory.remove(part);
+                inventory.removePart(part);
             }
         }
     }
@@ -153,7 +153,7 @@ public class InventoryManagementController extends InventoryController implement
 
         if (itemIsSelected(product)) {
             if (deleteConfirmed()){
-                inventory.remove(product);
+                inventory.removeProduct(product.getProductID());
             }
         }
     }
@@ -211,16 +211,22 @@ public class InventoryManagementController extends InventoryController implement
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        //test data
-        inventory.update(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
-        inventory.update(new Inhouse("chair", 14.99, 8, 3, 7, 007));
-        inventory.update(new Inhouse("head", 13.99, 3, 3, 7, 77779));
-        inventory.update(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
+        try{
+            inventory.update(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
+            inventory.update(new Inhouse("chair", 14.99, 8, 3, 7, 007));
+            inventory.update(new Inhouse("head", 13.99, 3, 3, 7, 77779));
+            inventory.update(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
 
-        ArrayList<Part> plist = new ArrayList<>();
-        plist.add(new Inhouse("Joka", 13.99, 5, 3, 7, 4557321));
-        inventory.update(new Product("Prod", 99.85, 2, 3, 4, plist));
-        inventory.update(new Product("Garni", 99.85, 2, 3, 4, plist));
+            ArrayList<Part> plist = new ArrayList<>();
+            plist.add(new Inhouse("Joka", 13.99, 5, 3, 7, 4557321));
+            inventory.addProduct(new Product("Prodi", 99.85, 2, 1, 7, plist));
+            inventory.addProduct(new Product("Garni", 99.85, 3, 1, 4, plist));
+        } catch (IllegalArgumentException | InvalidInventoryException e) {
+//            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        //test data
+
         
         
         initializePartsTable();
