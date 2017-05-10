@@ -18,18 +18,15 @@ import javafx.stage.Stage;
  * @author elitebook
  */
 public class InventoryManagementController extends InventoryController implements Initializable {
-    
-    
-//    private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
-//    private final ObservableList<Product> productInventory = FXCollections.observableArrayList();
-    
-    private final Inventory inventory = new Inventory();
-    
+      
 
     
     
 //    @FXML
 //    private Parent inventoryManagementRoot;
+    
+    private Inventory inventory;
+
     
     @FXML
     private TextField txtSearchPart;
@@ -68,19 +65,18 @@ public class InventoryManagementController extends InventoryController implement
     
     @FXML
     private void exitButtonAction(ActionEvent event){
-//        Node source = (Node) event.getSource();
-//        Stage stage = (Stage) source.getScene().getWindow();
-//        stage.close();
         closeWindow(event);
     }
-    
 
     
+    @Override
     public void setData(String title, Inventory inventory) {
         //TO DO
+        this.inventory = inventory;
+        initializePartsTable();
+        initializeProductsTable();
     }
-    
- 
+   
     
     private <T extends InventoryController> void add(String title, URL url){
         Stage stage = createStage(title, url);
@@ -141,7 +137,7 @@ public class InventoryManagementController extends InventoryController implement
         Part part = partsTable.getSelectionModel().getSelectedItem();
 
         if (itemIsSelected(part)) {
-            if (deleteConfirmed()){
+            if (deleteConfirmed("Delete Part?")){
                 inventory.removePart(part);
             }
         }
@@ -152,7 +148,9 @@ public class InventoryManagementController extends InventoryController implement
         Product product = productsTable.getSelectionModel().getSelectedItem();
 
         if (itemIsSelected(product)) {
-            if (deleteConfirmed()){
+            int size = product.getParts().size();
+            String message = "Contains (" + Integer.toString(size) + ") attached parts. Delete?";
+            if (deleteConfirmed(message)){
                 inventory.removeProduct(product.getProductID());
             }
         }
@@ -210,32 +208,7 @@ public class InventoryManagementController extends InventoryController implement
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        try{
-            inventory.update(new Inhouse("fish", 13.99, 5, 3, 7, 4557321));
-            inventory.update(new Inhouse("chair", 14.99, 8, 3, 7, 007));
-            inventory.update(new Inhouse("head", 13.99, 3, 3, 7, 77779));
-            inventory.update(new Outsourced("outsourced", 11.99, 5, 3, 7, "Goog"));
-
-            ArrayList<Part> plist = new ArrayList<>();
-            plist.add(new Inhouse("Joka", 13.99, 5, 3, 7, 4557321));
-            inventory.addProduct(new Product("Prodi", 99.85, 2, 1, 7, plist));
-            inventory.addProduct(new Product("Garni", 99.85, 3, 1, 4, plist));
-        } catch (IllegalArgumentException | InvalidInventoryException e) {
-//            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        //test data
-
-        
-        
-        initializePartsTable();
-        initializeProductsTable();
-        
-
-
-
-        
+ 
     } 
     
     

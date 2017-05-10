@@ -71,7 +71,20 @@ public class AddPartController extends InventoryController implements Initializa
 //    private boolean isCategoryChanged(){
 //        return isChanged;
 //    }
+   public enum Category {
+        INHOUSE("Inhouse"), OUTSOURCED("Outsourced");
 
+        private final String category;
+
+        Category(String c) {
+            this.category = c;
+        }
+        
+        public String string(){
+            return category;
+        }
+    }
+    
     
     public void setData(String title, Inventory inventory){
         setTitle(title);
@@ -90,10 +103,10 @@ public class AddPartController extends InventoryController implements Initializa
     }
     
     
-    private String getCategory(){      
-        String category; 
+    private Category getCategory(){      
+        Category category; 
         RadioButton rbtn = (RadioButton) categoryGroup.getSelectedToggle();       
-        category = (rbtn.getText().equals("Inhouse")) ? "Inhouse" : "Outsourced";
+        category = (rbtn.getText().equals("Inhouse")) ? Category.INHOUSE : Category.OUTSOURCED;
         
         return category;
     }    
@@ -121,63 +134,89 @@ public class AddPartController extends InventoryController implements Initializa
     
 
     
-    //Updates category and sets isChanged flag
-    private boolean updateCategory(){
-                
-        if(this.part != null){
-            if(this.part instanceof Inhouse){
-                isChanged = !getCategory().equals("Inhouse");
-            } else if ( this.part instanceof Outsourced){
-                isChanged = !getCategory().equals("Outsourced");
-            }
-        }      
-        return isChanged;
-    }
-    
-    
-    private Part createNewPart(){      
-        
-        Part newPart;
-        
-        if (getCategory().equals("Inhouse")) {
-            newPart = new Inhouse();
-        } else {
-            newPart = new Outsourced();
-        }    
-        return newPart;
-    }
+//    //Updates category and sets isChanged flag
+//    private boolean updateCategory(){
+//                
+//        if(this.part != null){
+//            if(this.part instanceof Inhouse){
+//                isChanged = !getCategory().equals(Category.INHOUSE);
+//            } else if ( this.part instanceof Outsourced){
+//                isChanged = !getCategory().equals(Category.OUTSOURCED);
+//            }
+//        }      
+//        return isChanged;
+//    }
+
     
     
     @FXML
     private void saveButtonAction(ActionEvent event){
         
-        updateCategory();
+//        updateCategory();
         
-        if ((this.part == null)){
-            this.part = createNewPart(); 
-        } else if (isChanged){
-            this.part = createNewPart();
-            this.part.setPartID(Integer.valueOf(txtPartID.getText()));
-        }       
+//        if ((this.part == null)){
+//            this.part = createNewPart(); 
+//        } else if (isChanged){
+//            this.part = createNewPart();
+//            //this.part.setPartID();
+//        }       
+//        
+//        //assign machineID or Company Name based on category
+//        if(getCategory().equals(Category.INHOUSE)){
+//            Inhouse p = (Inhouse)part;
+//            p.setMachineID(Integer.valueOf(txtPartMachineID.getText()));
+//        } else if (getCategory().equals("Outsourced")){
+//            Outsourced p = (Outsourced) part;
+//            p.setCompanyName(txtPartCompany.getText());
+//        }
         
-        //assign machineID or Company Name based on category
-        if(getCategory().equals("Inhouse")){
-            Inhouse p = (Inhouse)part;
-            p.setMachineID(Integer.valueOf(txtPartMachineID.getText()));
-        } else if (getCategory().equals("Outsourced")){
-            Outsourced p = (Outsourced) part;
-            p.setCompanyName(txtPartCompany.getText());
-        }       
+        try{
+            //int partID = Integer.valueOf(txtPartID.getText());
+            String name = txtPartName.getText();
+            double price = Double.valueOf(txtPartPrice.getText());
+            int instock = Integer.valueOf(txtPartInventory.getText());
+            int min = Integer.valueOf(txtPartMin.getText());
+            int max = Integer.valueOf(txtPartMax.getText());
+            
+            try{
+                //New part
+                if (this.part == null) {
+                    if (getCategory() == Category.INHOUSE) {
+                        int machineID = Integer.valueOf(txtPartMachineID.getText());
+                        Part newPart = new Inhouse(name, price, instock, min, max, machineID);
+                        inventory.addPart(newPart);
+                    } else if (getCategory() == Category.OUTSOURCED) {
+                        String companyName = txtPartCompany.getText();
+                        Part newPart = new Outsourced(name, price, instock, min, max, companyName);
+                        inventory.addPart(newPart);
+                    }
+                    //Update part    
+                } else {
+                    int id = this.part.getPartID();
 
-        this.part.setName(txtPartName.getText());
-        this.part.setPrice(Double.valueOf(txtPartPrice.getText()));
-        this.part.setInstock(Integer.valueOf(txtPartInventory.getText()));
-        this.part.setMin(Integer.valueOf(txtPartMin.getText()));
-        this.part.setMax(Integer.valueOf(txtPartMax.getText()));
+                    if (getCategory() == Category.INHOUSE) {
+                        int machineID = Integer.valueOf(txtPartMachineID.getText());
+                        Part newPart = new Inhouse(name, price, instock, min, max, machineID);
+                        newPart.setPartID(id);
+                        inventory.updatePart(newPart, id);
+                    } else if (getCategory() == Category.OUTSOURCED) {
+                        String companyName = txtPartCompany.getText();
+                        Part newPart = new Outsourced(name, price, instock, min, max, companyName);
+                        newPart.setPartID(id);
+                        inventory.updatePart(newPart, id);
+                    }
+                }
+
+                closeWindow(event);
+            }catch(IllegalArgumentException | InvalidInventoryException e){
+                System.out.println(e.getMessage());
+            }
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
         
-        inventory.update(part);
+
         
-        closeWindow(event);
     }
     
     @FXML
@@ -186,7 +225,7 @@ public class AddPartController extends InventoryController implements Initializa
     }
     
     private void toggleCategoryFields(){
-        if (getCategory().equals("Inhouse")) {
+        if (getCategory().equals(Category.INHOUSE)) {
             txtPartCompany.setVisible(false);
             txtPartCompany.managedProperty().bind(txtPartCompany.visibleProperty());
             lblPartCompany.setVisible(false);

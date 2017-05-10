@@ -21,16 +21,6 @@ public class Product implements InventoryItem {
     //Used for demonstration purposes to create IDs
     private static int nextID = 200;
 
-
-//    Product() {
-//        name = new SimpleStringProperty();
-//        productID = new SimpleIntegerProperty(generateNextID());
-//        price = new SimpleDoubleProperty();
-//        instock = new SimpleIntegerProperty();
-//        min = new SimpleIntegerProperty();
-//        max = new SimpleIntegerProperty();
-//        parts = new ArrayList<>();
-//    }
     
     Product(String name, Double price, Integer instock, Integer min, Integer max, ArrayList<Part> parts) throws InvalidInventoryException {
         

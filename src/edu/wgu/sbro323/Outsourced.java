@@ -8,7 +8,7 @@ public class Outsourced extends Part {
 //            
 //        }
         
-        Outsourced(String name, Double price, Integer instock, Integer min, Integer max, String companyName) {
+        Outsourced(String name, Double price, Integer instock, Integer min, Integer max, String companyName) throws InvalidInventoryException {
         super(name, price, instock, min, max);
         this.companyName = companyName;
     }

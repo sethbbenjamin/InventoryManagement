@@ -39,6 +39,10 @@ public abstract class InventoryController {
         return loader;
     }
     
+    public void setLoader(FXMLLoader loader){
+        this.loader = loader;
+    }
+    
     //Bind table data to search field
     /**
      *
@@ -156,11 +160,11 @@ public abstract class InventoryController {
         return false;
     }
     
-    public boolean deleteConfirmed() {
+    public boolean deleteConfirmed(String msg) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Confirmation");
         alert.setHeaderText(null);
-        alert.setContentText("Delete Item?");
+        alert.setContentText(msg);
 
         Optional<ButtonType> result = alert.showAndWait();
         return (result.get() == ButtonType.OK);

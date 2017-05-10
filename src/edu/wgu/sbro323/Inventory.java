@@ -75,10 +75,37 @@ public class Inventory {
     public ObservableList<Part> getPartInventory(){return partInventory;}  
     public ObservableList<Product> getProductInventory() {return products;} 
     
+    //set and get temporary part / product references
     public void setPart(Part part){this.part = part;}
     public Part getPart(){return part;}
     
+    //Add new part to inventory
+    public void addPart(Part part){
+        this.partInventory.add(part);
+    }
     
+    public void updatePart(Part newPart, int id){
+        Part oldPart = lookupPart(id);
+        
+        if(oldPart != null){
+            int index = partInventory.indexOf(oldPart);
+            partInventory.set(index, newPart);
+        }
+        
+    }
+    
+    private Part lookupPart(int id){
+        
+        for(Part part : partInventory){
+            if(part.getPartID() == id){
+                return part;
+            }
+        }
+        
+        return null;      
+    }
+    
+    //Set / get temporary product reference
     public void setProduct(Product product) {this.product = product;}
     public Product getProduct() {return product;}
     

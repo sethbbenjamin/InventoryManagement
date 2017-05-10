@@ -17,25 +17,32 @@ public abstract class Part implements InventoryItem {
 	private final IntegerProperty max;
                 
         private static int nextID = 3000;
-                
-	
-	
-//        Part(){
-//           name  = new SimpleStringProperty();
-//           partID = new SimpleIntegerProperty(generateNextID());
-//           price = new SimpleDoubleProperty();
-//           instock = new SimpleIntegerProperty();
-//           min = new SimpleIntegerProperty();
-//           max = new SimpleIntegerProperty();
-//        }
+               
         
-	Part(String name, Double price, Integer instock, Integer min, Integer max){
-           this.name  = new SimpleStringProperty(name);
+	Part(String name, Double price, Integer instock, Integer min, Integer max) throws InvalidInventoryException{
+           
+            
+           this.name = new SimpleStringProperty(); 
            this.partID = new SimpleIntegerProperty(generateNextID());
-           this.price = new SimpleDoubleProperty(price);
-           this.instock = new SimpleIntegerProperty(instock);
-           this.min = new SimpleIntegerProperty(min);
-           this.max = new SimpleIntegerProperty(max);
+           this.price = new SimpleDoubleProperty();
+           this.instock = new SimpleIntegerProperty();
+           this.min = new SimpleIntegerProperty();
+           this.max = new SimpleIntegerProperty();
+           
+           setName(name);
+           setPrice(price);
+           
+            if ((instock < min) || (instock > max)) {
+                throw new InvalidInventoryException("Inventory must be between min and max");
+            } else if (min > max) {
+                throw new InvalidInventoryException("Min must be less than max");
+            } else {
+                this.instock.set(instock);
+                this.min.set(min);
+                this.max.set(max);
+            }
+           
+           
         }
         
        //Used for demonstration purposes. A more robust ID management system would be needed
@@ -43,8 +50,16 @@ public abstract class Part implements InventoryItem {
             return ++nextID;
         }
         
+        //Name methods
+        public final void setName(String name) {
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("Name must not be blank");
+            }
+            this.name.set(name);
+        }
+        
+        @Override
 	public String getName() {return name.get();} 
-        public void setName(String name){this.name.set(name);}
         public StringProperty nameProperty(){return name;}
 	
         
@@ -52,21 +67,49 @@ public abstract class Part implements InventoryItem {
 	public void setPartID(int partID) {this.partID.set(partID);}     
         public IntegerProperty partIDProperty(){ return partID; }
         
-	public double getPrice() {return price.get();}
-	public void setPrice(double price) {this.price.set(price);}
+        //Price methods
+        public final void setPrice(double price) {
+            if (price < 0) {
+                throw new IllegalArgumentException("Price must not be negative");
+            }
+            this.price.set(price);
+        }
+        public double getPrice() {return price.get();}
 	public DoubleProperty priceProperty(){ return price;}
         
         public int getInstock() {return instock.get();}
-	public void setInstock(int instock) {this.instock.set(instock);}
+	
+        public void setInstock(int instock) throws InvalidInventoryException {
+            
+            if ((instock < getMin()) || (instock > getMax())) {
+                throw new InvalidInventoryException("Inventory must be between min and max");
+            }
+            
+            this.instock.set(instock);
+        }
 	public IntegerProperty instockProperty(){ return instock;}
         
         
+        //Min methods
         public int getMin() {return min.get();}
-	public void setMin(int min) {this.min.set(min);}
+        
+	public void setMin(int min) throws InvalidInventoryException {
+            if (min > getMax()) {
+                throw new InvalidInventoryException("Min must be less than max");
+            }
+            this.min.set(min);
+        }
+        
 	public IntegerProperty minProperty(){ return min;}
         
+        //Max methods
         public int getMax() {return max.get();}
-	public void setMax(int max) {this.max.set(max);}
+	public void setMax(int max) throws InvalidInventoryException {
+            if (max < getMin()) {
+                throw new InvalidInventoryException("Max must be greater than min");
+            }
+            this.max.set(max);
+        }
 	public IntegerProperty maxProperty(){return max;}
 
 }
