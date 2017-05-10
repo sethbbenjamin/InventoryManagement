@@ -1,6 +1,5 @@
 package edu.wgu.sbro323;
 
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.wgu.sbro323;
 
 import java.net.URL;
@@ -20,17 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
-/**
- * FXML Controller class
- *
- * @author elitebook
- */
 public class AddPartController extends InventoryController implements Initializable {
 
     private Inventory inventory;
     private Part part;
     
-    private boolean isChanged = false;
     
     @FXML
     private TextField txtPartName; 
@@ -82,6 +71,7 @@ public class AddPartController extends InventoryController implements Initializa
     }
     
     
+    @Override
     public void setData(String title, Inventory inventory){
         setTitle(title);
         this.inventory = inventory;
@@ -124,7 +114,6 @@ public class AddPartController extends InventoryController implements Initializa
             Outsourced p = (Outsourced)part;
             txtPartCompany.setText(p.getCompanyName());
             rbtnOutsourced.setSelected(true);
-            //this.category = "Outsourced";
         }
     }
      
@@ -182,9 +171,7 @@ public class AddPartController extends InventoryController implements Initializa
             showErrorDialog("Must be a valid number: " + e.getMessage());
 
         }
-        
-
-        
+   
     }
     
     @FXML
@@ -235,17 +222,14 @@ public class AddPartController extends InventoryController implements Initializa
             }
         });
         
+        //Disables button if fieldds not complete
         btnSave.disableProperty().bind(Bindings.isEmpty(txtPartName.textProperty())
                 .or(Bindings.isEmpty(txtPartPrice.textProperty()))
                 .or(Bindings.isEmpty(txtPartInventory.textProperty()))
                 .or(Bindings.isEmpty(txtPartMin.textProperty()))
                 .or(Bindings.isEmpty(txtPartMax.textProperty()))
         );
-        
-        
-        
-
-        
+            
 
     }    
     

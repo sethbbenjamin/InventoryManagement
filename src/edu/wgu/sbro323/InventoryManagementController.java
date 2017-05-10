@@ -13,20 +13,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
- *
- * @author elitebook
- */
 public class InventoryManagementController extends InventoryController implements Initializable {
-      
-
-    
-    
-//    @FXML
-//    private Parent inventoryManagementRoot;
-    
+  
     private Inventory inventory;
-
     
     @FXML
     private TextField txtSearchPart;
@@ -62,12 +51,15 @@ public class InventoryManagementController extends InventoryController implement
     @FXML
     private Button btnModifyProduct;
 
+    @FXML
+    private Button btnDeletePart;
+    @FXML
+    private Button btnDeleteProduct;
     
     @FXML
     private void exitButtonAction(ActionEvent event){
         closeWindow(event);
     }
-
     
     @Override
     public void setData(String title, Inventory inventory) {
@@ -125,8 +117,7 @@ public class InventoryManagementController extends InventoryController implement
             URL url = getClass().getResource("AddProduct.fxml");
             add(title, url);
         }
-    }
-    
+    }   
     
     @FXML
     private void deletePartButtonAction(){ 
@@ -180,6 +171,7 @@ public class InventoryManagementController extends InventoryController implement
         partsTable.setItems(sortedData);
         
         toggleModifyButton(btnModifyPart, partsTable);
+        toggleModifyButton(btnDeletePart, partsTable);
     }
     
     
@@ -198,14 +190,13 @@ public class InventoryManagementController extends InventoryController implement
         SortedList<Product> sortedData = filterTableData(inventory.getProductInventory(), txtSearchProduct, productsTable);
         productsTable.setItems(sortedData);
         toggleModifyButton(btnModifyProduct, productsTable);
+        toggleModifyButton(btnDeleteProduct, productsTable);
     }
-
 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
  
-    } 
-    
+    }    
     
 }

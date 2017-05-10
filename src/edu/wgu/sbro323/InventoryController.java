@@ -3,7 +3,6 @@ package edu.wgu.sbro323;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Optional;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -63,7 +62,6 @@ public abstract class InventoryController {
 
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                //String i = (InventoryItem)item.g
                 if (item.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
@@ -182,7 +180,6 @@ public abstract class InventoryController {
         
         modifyButton.setDisable(true);
 
-        
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 
 

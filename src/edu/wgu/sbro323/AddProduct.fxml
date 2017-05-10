@@ -70,7 +70,7 @@
             </TableView>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#attachButtonAction" text="Attach" />
+                <Button fx:id="btnAttach" mnemonicParsing="false" onAction="#attachButtonAction" text="Attach" />
               </buttons>
             </ButtonBar>
             <TableView fx:id="attachedPartsTable" prefHeight="200.0" prefWidth="200.0">
@@ -83,7 +83,7 @@
             </TableView>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#removeButtonAction" text="Remove" />
+                <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#removeButtonAction" text="Remove" />
               </buttons>
             </ButtonBar>
          </children>

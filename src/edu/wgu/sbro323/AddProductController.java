@@ -28,8 +28,6 @@ public class AddProductController extends InventoryController implements Initial
     private Product product;
     private ObservableList<Part> attachedParts;
     
-    //private boolean isChanged = false;
-
     
     @FXML
     private TextField txtProductName;
@@ -79,7 +77,10 @@ public class AddProductController extends InventoryController implements Initial
     @FXML
     private TableColumn<Part, Double> attachedPartPriceColumn;
 
-    
+    @FXML
+    private Button btnAttach;
+    @FXML
+    private Button btnRemove;
     
     
     public void setProduct(Product product) {
@@ -101,7 +102,6 @@ public class AddProductController extends InventoryController implements Initial
             setFields();
             attachedParts = FXCollections.observableArrayList(product.getParts());
         }
-        
 
         initializeAttachedPartsTable();      
         initializePartsTable();
@@ -122,6 +122,9 @@ public class AddProductController extends InventoryController implements Initial
         //Bind table data to search field
         SortedList<Part> sortedData = filterTableData(inventory.getPartInventory(), txtSearchPart, partsTable);
         partsTable.setItems(sortedData);
+        
+        toggleModifyButton(btnAttach, partsTable);
+        
     }
     
     private void initializeAttachedPartsTable() {
@@ -139,6 +142,7 @@ public class AddProductController extends InventoryController implements Initial
         //Format as currency
         formatTableColumnCurrency(attachedPartPriceColumn);
         attachedPartsTable.setItems(attachedParts);
+        toggleModifyButton(btnRemove, attachedPartsTable);
     }
     
     
@@ -217,7 +221,6 @@ public class AddProductController extends InventoryController implements Initial
         } catch (NumberFormatException e){
             showErrorDialog("Must be a valid number: " + e.getMessage());
         }
- 
     }
     
     @FXML
@@ -234,7 +237,6 @@ public class AddProductController extends InventoryController implements Initial
     }
      
     
-    
     /**
      * Initializes the controller class.
      */
@@ -249,10 +251,7 @@ public class AddProductController extends InventoryController implements Initial
                 .or(Bindings.isEmpty(txtProductMax.textProperty()))
         
         );
-        
-       
-        
-        
+         
     }    
     
 }

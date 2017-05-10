@@ -124,7 +124,7 @@
                      <buttons>
                         <Button mnemonicParsing="false" onAction="#addProductButtonAction" text="Add" />
                         <Button fx:id="btnModifyProduct" mnemonicParsing="false" onAction="#modifyProductButtonAction" text="Modify" />
-                        <Button mnemonicParsing="false" onAction="#deleteProductButtonAction" text="Delete" />
+                        <Button fx:id="btnDeleteProduct" mnemonicParsing="false" onAction="#deleteProductButtonAction" text="Delete" />
                      </buttons>
                   </ButtonBar>
                </children>

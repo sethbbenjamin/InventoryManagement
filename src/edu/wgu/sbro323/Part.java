@@ -42,7 +42,6 @@ public abstract class Part implements InventoryItem {
                 this.max.set(max);
             }
            
-           
         }
         
        //Used for demonstration purposes. A more robust ID management system would be needed

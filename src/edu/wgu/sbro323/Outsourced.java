@@ -3,10 +3,6 @@ package edu.wgu.sbro323;
 public class Outsourced extends Part {
 
 	private String companyName;
-
-//        Outsourced(){
-//            
-//        }
         
         Outsourced(String name, Double price, Integer instock, Integer min, Integer max, String companyName) throws InvalidInventoryException {
         super(name, price, instock, min, max);
@@ -18,6 +14,9 @@ public class Outsourced extends Part {
 	}
 
 	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	    if (companyName == null || companyName.isEmpty()) {
+                throw new IllegalArgumentException("Company name must not be blank");
+            }	
+            this.companyName = companyName;
 	}
 }
