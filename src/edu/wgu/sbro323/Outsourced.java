@@ -6,14 +6,14 @@ public class Outsourced extends Part {
         
         Outsourced(String name, Double price, Integer instock, Integer min, Integer max, String companyName) throws InvalidInventoryException {
         super(name, price, instock, min, max);
-        this.companyName = companyName;
+        setCompanyName(companyName);
     }
         
 	public String getCompanyName() {
 		return companyName;
 	}
 
-	public void setCompanyName(String companyName) {
+	public final void setCompanyName(String companyName) {
 	    if (companyName == null || companyName.isEmpty()) {
                 throw new IllegalArgumentException("Company name must not be blank");
             }	

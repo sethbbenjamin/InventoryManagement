@@ -7,7 +7,7 @@ public class Inhouse extends Part {
         
         Inhouse(String name, Double price, int instock, int min, int max, int machineID) throws InvalidInventoryException{
             super(name, price, instock, min, max);
-            this.machineID = machineID;
+            setMachineID(machineID);
         }
 
 	public int getMachineID() {
