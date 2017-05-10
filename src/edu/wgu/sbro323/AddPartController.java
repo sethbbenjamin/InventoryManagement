@@ -6,24 +6,19 @@
 package edu.wgu.sbro323;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -68,9 +63,10 @@ public class AddPartController extends InventoryController implements Initializa
     @FXML
     private RadioButton rbtnOutsourced;
     
-//    private boolean isCategoryChanged(){
-//        return isChanged;
-//    }
+    @FXML
+    private Button btnSave;
+    
+
    public enum Category {
         INHOUSE("Inhouse"), OUTSOURCED("Outsourced");
 
@@ -131,50 +127,19 @@ public class AddPartController extends InventoryController implements Initializa
             //this.category = "Outsourced";
         }
     }
-    
-
-    
-//    //Updates category and sets isChanged flag
-//    private boolean updateCategory(){
-//                
-//        if(this.part != null){
-//            if(this.part instanceof Inhouse){
-//                isChanged = !getCategory().equals(Category.INHOUSE);
-//            } else if ( this.part instanceof Outsourced){
-//                isChanged = !getCategory().equals(Category.OUTSOURCED);
-//            }
-//        }      
-//        return isChanged;
-//    }
-
-    
+     
     
     @FXML
     private void saveButtonAction(ActionEvent event){
-        
-//        updateCategory();
-        
-//        if ((this.part == null)){
-//            this.part = createNewPart(); 
-//        } else if (isChanged){
-//            this.part = createNewPart();
-//            //this.part.setPartID();
-//        }       
-//        
-//        //assign machineID or Company Name based on category
-//        if(getCategory().equals(Category.INHOUSE)){
-//            Inhouse p = (Inhouse)part;
-//            p.setMachineID(Integer.valueOf(txtPartMachineID.getText()));
-//        } else if (getCategory().equals("Outsourced")){
-//            Outsourced p = (Outsourced) part;
-//            p.setCompanyName(txtPartCompany.getText());
-//        }
         
         try{
             //int partID = Integer.valueOf(txtPartID.getText());
             String name = txtPartName.getText();
             double price = Double.valueOf(txtPartPrice.getText());
-            int instock = Integer.valueOf(txtPartInventory.getText());
+            int instock = 0;
+            if (!txtPartInventory.getText().isEmpty()) {
+                instock = Integer.valueOf(txtPartInventory.getText());
+            }
             int min = Integer.valueOf(txtPartMin.getText());
             int max = Integer.valueOf(txtPartMax.getText());
             
@@ -208,11 +173,14 @@ public class AddPartController extends InventoryController implements Initializa
                 }
 
                 closeWindow(event);
-            }catch(IllegalArgumentException | InvalidInventoryException e){
-                System.out.println(e.getMessage());
+            }catch(InvalidInventoryException e){
+                showErrorDialog(e.getMessage());
+            }catch(IllegalArgumentException e){
+                showErrorDialog("Invalid or missing data");
             }
         } catch (NumberFormatException e){
-            e.printStackTrace();
+            showErrorDialog("Must be a valid number: " + e.getMessage());
+
         }
         
 
@@ -266,6 +234,13 @@ public class AddPartController extends InventoryController implements Initializa
                 }
             }
         });
+        
+        btnSave.disableProperty().bind(Bindings.isEmpty(txtPartName.textProperty())
+                .or(Bindings.isEmpty(txtPartPrice.textProperty()))
+                .or(Bindings.isEmpty(txtPartInventory.textProperty()))
+                .or(Bindings.isEmpty(txtPartMin.textProperty()))
+                .or(Bindings.isEmpty(txtPartMax.textProperty()))
+        );
         
         
         

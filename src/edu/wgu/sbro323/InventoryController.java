@@ -22,14 +22,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * 
- * @author Seth B
- */
+
 public abstract class InventoryController {
     
     private FXMLLoader loader;
-    
     
     public abstract void setData(String title, Inventory inventory);
 
@@ -42,6 +38,8 @@ public abstract class InventoryController {
     public void setLoader(FXMLLoader loader){
         this.loader = loader;
     }
+    
+
     
     //Bind table data to search field
     /**
@@ -144,6 +142,15 @@ public abstract class InventoryController {
 
         return stage;
     }
+    
+    public void showErrorDialog(String msg){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+    
     
     public <T> boolean itemIsSelected(T item) {
 

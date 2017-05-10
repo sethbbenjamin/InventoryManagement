@@ -95,7 +95,7 @@ public class Product implements InventoryItem {
         
         if(instock < 0){
             throw new IllegalArgumentException("Inventory cannot be negative");
-        } else if (instock < getMin() || instock > getMax()){
+        } else if ((instock < getMin()) || (instock > getMax())){
             throw new InvalidInventoryException("Inventory must be between min and max");
         }
         
@@ -196,7 +196,7 @@ public class Product implements InventoryItem {
         boolean isValid = true;
         
         if (parts.isEmpty()) {
-            throw new InvalidInventoryException("No parts");
+            throw new InvalidInventoryException("No parts attached");
         } else if (price < 0) {
             throw new IllegalArgumentException("Price must not be negative");
         } else {

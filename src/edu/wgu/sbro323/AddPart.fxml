@@ -20,7 +20,7 @@
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
             <Button mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
-            <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
         </buttons>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

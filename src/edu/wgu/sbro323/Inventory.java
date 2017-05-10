@@ -48,9 +48,10 @@ public class Inventory {
         return null;
     }
     
+    //Method not used
     public void updateProduct(int id) {
-        //not used in favor of update(product)
-        Product p = lookupProduct(id);
+        //not used in favor of: update(product)
+        throw new IllegalArgumentException("Method not used");
     }
       
     

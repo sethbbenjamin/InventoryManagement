@@ -179,7 +179,12 @@ public class AddProductController extends InventoryController implements Initial
             String name = txtProductName.getText();
             
             double price = Double.valueOf(txtProductPrice.getText());
-            int instock = Integer.valueOf(txtProductInventory.getText());
+            
+            int instock = 0;
+            if(!txtProductInventory.getText().isEmpty()){
+                instock = Integer.valueOf(txtProductInventory.getText());
+            }
+            
             int min = Integer.valueOf(txtProductMin.getText());
             int max = Integer.valueOf(txtProductMax.getText()); 
 
@@ -189,35 +194,28 @@ public class AddProductController extends InventoryController implements Initial
                     this.product = new Product(name, price, instock, min, max, attached);
                     inventory.addProduct(this.product); 
                     closeWindow(event);
-                } catch(IllegalArgumentException | InvalidInventoryException e) {
-                    //TODO add to error list
-                    System.out.println(e.getMessage());
+                } catch (InvalidInventoryException e) {
+                    showErrorDialog(e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    showErrorDialog("Invalid or missing data");
                 }
 
             } else {
                 
                 try{
-                    this.product.setName(name);
-                    this.product.setPrice(price);
-                    this.product.setInstock(instock);
-                    this.product.setMin(min);
-                    this.product.setMax(max);
 
-                    this.product.setParts(attached);
+                    this.product = new Product(name, price, instock, min, max, attached);
                     inventory.update(product);
                     closeWindow(event);
 
-                }catch(IllegalArgumentException | InvalidInventoryException e) {
-                    //TODO add to error list
-                    System.out.println(e.getMessage());
+                } catch (InvalidInventoryException e) {
+                    showErrorDialog(e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    showErrorDialog("Invalid or missing data");
                 }
-
             }
-
- 
         } catch (NumberFormatException e){
-            System.out.println("Must be a valid number: " + e.getMessage());
-//            e.printStackTrace();
+            showErrorDialog("Must be a valid number: " + e.getMessage());
         }
  
     }

@@ -77,7 +77,7 @@ public class InventoryManagementController extends InventoryController implement
         initializeProductsTable();
     }
    
-    
+    //Creates new window for adding or modifying parts
     private <T extends InventoryController> void add(String title, URL url){
         Stage stage = createStage(title, url);
         T controller = getLoader().getController();        
@@ -127,10 +127,6 @@ public class InventoryManagementController extends InventoryController implement
         }
     }
     
-
-    
-      
-
     
     @FXML
     private void deletePartButtonAction(){ 
